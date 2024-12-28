@@ -15,7 +15,7 @@ class OnboardingView extends StatefulWidget {
 
 class _OnboardingViewState extends State<OnboardingView> {
   final _primaryController = PageController();
-  final _secondaryController = PageController();
+  final _secondaryController   = PageController();
   final List<(String, String, String)> _onboardingData = [
     (
       'Drive Your Dream Car Today!',
