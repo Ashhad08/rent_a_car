@@ -13,17 +13,20 @@ class AppThemes {
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
           seedColor: _appColors.kPrimaryColor,
+          outline: _appColors.kBorderColor,
+          secondary: _appColors.kSecondaryColor,
         ),
         textTheme: GoogleFonts.poppinsTextTheme(),
         fontFamily: 'Poppins',
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            backgroundColor: _appColors.kPrimaryColor,
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            backgroundColor: Colors.transparent,
             foregroundColor: _appColors.kWhiteColor,
+            padding: EdgeInsets.zero,
             textStyle:
-                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600),
+                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ),
         textButtonTheme: TextButtonThemeData(
