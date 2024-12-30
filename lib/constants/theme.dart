@@ -17,6 +17,15 @@ class AppThemes {
           secondary: _appColors.kSecondaryColor,
         ),
         textTheme: GoogleFonts.poppinsTextTheme(),
+        appBarTheme: AppBarTheme(
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            foregroundColor: Colors.black,
+            centerTitle: true,
+            titleTextStyle: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black)),
         fontFamily: 'Poppins',
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

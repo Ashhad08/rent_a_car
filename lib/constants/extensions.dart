@@ -30,7 +30,7 @@ extension Space on num {
 }
 
 extension OpacityExt on Color {
-  Color withOp(double opacity) => withValues(alpha: (opacity * 255));
+  Color withOp(double opacity) => withAlpha((opacity * 255).round());
 }
 
 final getIt = GetIt.instance;

@@ -2,8 +2,19 @@
 class Assets {
   Assets._();
 
+  static const String iconsAvailable = 'assets/icons/available.png';
+  static const String iconsCalender = 'assets/icons/calender.png';
+  static const String iconsCar = 'assets/icons/car.png';
+  static const String iconsCar2 = 'assets/icons/car_2.png';
+  static const String iconsCar3 = 'assets/icons/car_3.png';
+  static const String iconsColor = 'assets/icons/color.png';
+  static const String iconsCustomers = 'assets/icons/customers.png';
+  static const String iconsNotAvailable = 'assets/icons/not_available.png';
+  static const String iconsRentCar = 'assets/icons/rent_car.png';
   static const String imagesAppLogo = 'assets/images/app_logo.png';
   static const String imagesAppLogoSmall = 'assets/images/app_logo_small.png';
+  static const String imagesCarDummy = 'assets/images/car_dummy.png';
+  static const String imagesCarDummy2 = 'assets/images/car_dummy_2.png';
   static const String imagesOnboarding1 = 'assets/images/onboarding_1.png';
   static const String imagesOnboarding2 = 'assets/images/onboarding_2.png';
   static const String imagesOnboarding3 = 'assets/images/onboarding_3.png';

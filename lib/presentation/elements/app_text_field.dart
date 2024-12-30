@@ -95,7 +95,7 @@ class AppTextField extends StatelessWidget {
               hintText: hintText,
               filled: true,
               prefixIconColor: context.colorScheme.outline.withOp(0.8),
-              fillColor: context.colorScheme.outline.withOp(0.03),
+              fillColor: context.colorScheme.onPrimary,
               prefixIcon: prefixIcon == null
                   ? null
                   : Padding(
@@ -104,7 +104,7 @@ class AppTextField extends StatelessWidget {
                     ),
               hintStyle: GoogleFonts.poppins(
                 fontSize: 14,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
               ),
               suffixIcon: isPasswordField
                   ? IconButton(

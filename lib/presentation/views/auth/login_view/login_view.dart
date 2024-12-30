@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../../constants/extensions.dart';
 import '../../../../navigation/navigation_helper.dart';
 import '../../../elements/app_text_field.dart';
-import '../../vehicle/all_vehicles_view/all_vehicles_view.dart';
+import '../../../elements/custom_elevated_button.dart';
+import '../../../elements/gradient_body.dart';
+import '../../dashboard_view/dashboard_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -31,97 +33,81 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: GradientBody(
+          child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              60.height,
+              20.height,
               const Text(
-                'Welcome back',
+                'Log In',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-              30.height,
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: context.colorScheme.onPrimary,
+              4.height,
+              const Text(
+                'Manage you rental services with ease',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Enter your information and login to your account',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
-                    ),
-                    20.height,
-                    const Text(
-                      'Email',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
-                    8.height,
-                    AppTextField(
-                      controller: _emailController,
-                      focusNode: _emailNode,
-                      textInputAction: TextInputAction.next,
-                      textInputType: TextInputType.emailAddress,
-                      onFieldSubmitted: (p0) {
-                        FocusScope.of(context).requestFocus(_passwordNode);
-                      },
-                      hintText: 'Enter email',
-                      prefixIcon: const Icon(
-                        CupertinoIcons.mail,
-                        size: 22,
-                      ),
-                    ),
-                    15.height,
-                    const Text(
-                      'Password',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
-                    8.height,
-                    AppTextField(
-                      controller: _passwordController,
-                      focusNode: _passwordNode,
-                      hintText: 'Enter password',
-                      isPasswordField: true,
-                      prefixIcon: const Icon(
-                        CupertinoIcons.lock,
-                        size: 22,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Forget password?',
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                    ),
-                  ],
+              ),
+              34.height,
+              AppTextField(
+                controller: _emailController,
+                focusNode: _emailNode,
+                textInputAction: TextInputAction.next,
+                textInputType: TextInputType.emailAddress,
+                onFieldSubmitted: (p0) {
+                  FocusScope.of(context).requestFocus(_passwordNode);
+                },
+                hintText: 'Enter email',
+                prefixIcon: const Icon(
+                  CupertinoIcons.mail_solid,
+                  size: 22,
+                ),
+              ),
+              18.height,
+              AppTextField(
+                controller: _passwordController,
+                focusNode: _passwordNode,
+                hintText: 'Enter password',
+                isPasswordField: true,
+                prefixIcon: const Icon(
+                  CupertinoIcons.lock_fill,
+                  size: 22,
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Forgot password?',
+                    style: TextStyle(fontSize: 14),
+                  ),
                 ),
               ),
               50.height,
-              ElevatedButton(
+              CustomElevatedButton(
                 onPressed: () {
                   getIt<NavigationHelper>()
-                      .pushReplacement(context, const AllVehiclesView());
+                      .pushReplacement(context, const DashboardView());
                 },
-                child: const Text('Login'),
-              ).space(height: 56, width: double.infinity),
+                text: 'Login',
+              ),
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 }
