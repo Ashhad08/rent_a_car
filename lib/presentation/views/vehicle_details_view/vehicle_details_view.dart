@@ -13,7 +13,7 @@ class VehicleDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> overViewItems = [
       {
-        'image': Assets.iconsCar2,
+        'image': Assets.iconsCarFront,
         'title': 'Make',
         'value': 'Honda',
       },

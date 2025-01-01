@@ -6,6 +6,9 @@ import '../../../generated/assets.dart';
 import '../../elements/gradient_body.dart';
 import '../all_customers_view/all_customers_view.dart';
 import '../all_vehicles_view/all_vehicles_view.dart';
+import '../available_for_rent_vehicles_view/available_for_rent_vehicles_view.dart';
+import '../on_rent_vehicles_view/on_rent_vehicles_view.dart';
+import 'widgets/app_drawer.dart';
 import 'widgets/dashboard_card.dart';
 import 'widgets/legend_widget.dart';
 import 'widgets/pie_chart_view.dart';
@@ -20,7 +23,22 @@ class DashboardView extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Dashboard'),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Image.asset(
+                Assets.iconsDrawer,
+                height: 24,
+                width: 24,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
       ),
+      drawer: AppDrawer(),
       body: GradientBody(
         child: SingleChildScrollView(
           child: Padding(
@@ -40,7 +58,7 @@ class DashboardView extends StatelessWidget {
                     title: 'On Available'.toUpperCase(),
                     data: '53',
                     icon: Assets.iconsCar,
-                    nextScreen: const SizedBox(),
+                    nextScreen: const AvailableForRentVehiclesView(),
                   ),
                 ]),
                 16.height,
@@ -50,7 +68,7 @@ class DashboardView extends StatelessWidget {
                     title: 'On Rent'.toUpperCase(),
                     data: '44',
                     icon: Assets.iconsRentCar,
-                    nextScreen: const SizedBox(),
+                    nextScreen: const OnRentVehiclesView(),
                   ),
                   DashboardCard(
                     color: appColors.kYellow,
@@ -82,6 +100,7 @@ class DashboardView extends StatelessWidget {
                     appColors.kRed,
                   ),
                 ]),
+                83.height,
               ],
             ),
           ),

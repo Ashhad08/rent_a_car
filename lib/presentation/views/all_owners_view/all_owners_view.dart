@@ -2,20 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/extensions.dart';
-import '../../../utils/utils.dart';
+import '../../../navigation/navigation_helper.dart';
 import '../../elements/app_text_field.dart';
 import '../../elements/gradient_body.dart';
+import '../owner_details_view/owner_details_view.dart';
 
-class AllCustomersView extends StatelessWidget {
-  const AllCustomersView({super.key});
+class AllOwnersView extends StatelessWidget {
+  const AllOwnersView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: getIt<Utils>().popIcon(context),
-        title: const Text('All Customers'),
+        title: const Text('All Owners'),
       ),
       body: GradientBody(
         child: Padding(
@@ -43,6 +43,10 @@ class AllCustomersView extends StatelessWidget {
                     color: Colors.transparent,
                     child: ListTile(
                       leading: CircleAvatar(),
+                      onTap: () {
+                        getIt<NavigationHelper>()
+                            .push(context, OwnerDetailsView());
+                      },
                       style: ListTileStyle.list,
                       tileColor: context.colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
@@ -70,6 +74,7 @@ class AllCustomersView extends StatelessWidget {
                   ),
                 ),
               ),
+              83.height,
             ],
           ),
         ),

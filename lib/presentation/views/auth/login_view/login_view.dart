@@ -6,7 +6,7 @@ import '../../../../navigation/navigation_helper.dart';
 import '../../../elements/app_text_field.dart';
 import '../../../elements/custom_elevated_button.dart';
 import '../../../elements/gradient_body.dart';
-import '../../dashboard_view/dashboard_view.dart';
+import '../../bottom_nav_bar/bottom_nav_bar.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -100,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
               CustomElevatedButton(
                 onPressed: () {
                   getIt<NavigationHelper>()
-                      .pushReplacement(context, const DashboardView());
+                      .pushReplacement(context, const BottomNavBar());
                 },
                 text: 'Login',
               ),

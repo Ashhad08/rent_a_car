@@ -116,13 +116,11 @@ class AppTextField extends StatelessWidget {
                       icon: state.obscureText
                           ? Icon(
                               CupertinoIcons.eye_slash,
-                              color:
-                                  context.colorScheme.outline.withOp(0.8),
+                              color: context.colorScheme.outline.withOp(0.8),
                             )
                           : Icon(
                               CupertinoIcons.eye,
-                              color:
-                                  context.colorScheme.outline.withOp(0.8),
+                              color: context.colorScheme.outline.withOp(0.8),
                             ),
                     )
                   : suffix,

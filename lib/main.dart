@@ -10,7 +10,6 @@ import 'constants/theme.dart';
 import 'domain/implementations/vehicle_api_repository.dart';
 import 'navigation/navigation_helper.dart';
 import 'network/network_repository.dart';
-import 'presentation/views/auth/login_view/login_view.dart';
 import 'presentation/views/onboarding/splash_view/splash_view.dart';
 import 'utils/utils.dart';
 

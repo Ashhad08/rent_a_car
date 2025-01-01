@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 part 'app_text_field_event.dart';
-
 part 'app_text_field_state.dart';
 
 class AppTextFieldBloc extends Bloc<AppTextFieldEvent, AppTextFieldState> {
