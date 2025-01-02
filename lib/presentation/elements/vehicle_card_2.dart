@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../constants/extensions.dart';
 import '../../generated/assets.dart';
+import '../../navigation/navigation_helper.dart';
+import '../views/live_tracking_view/live_tracking_view.dart';
 
 class VehicleCard2 extends StatelessWidget {
   const VehicleCard2({
@@ -9,11 +11,13 @@ class VehicleCard2 extends StatelessWidget {
     required this.status,
     required this.statusColor,
     this.statusIcon,
+    this.showTrackLocationIcon = false,
   });
 
   final String status;
   final Color statusColor;
   final Widget? statusIcon;
+  final bool showTrackLocationIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -62,32 +66,64 @@ class VehicleCard2 extends StatelessWidget {
                 ),
               )),
               10.width,
-              Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                    color: statusColor.withOp(0.1),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: statusColor.withOp(0.3),
-                    )),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (statusIcon != null) ...[
-                      statusIcon!,
-                      4.width,
-                    ],
-                    Text(
-                      status,
-                      style: TextStyle(
-                          color: statusColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                        color: statusColor.withOp(0.1),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: statusColor.withOp(0.3),
+                        )),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (statusIcon != null) ...[
+                          statusIcon!,
+                          4.width,
+                        ],
+                        Text(
+                          status,
+                          style: TextStyle(
+                              color: statusColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (showTrackLocationIcon) ...[
+                    5.height,
+                    InkWell(
+                      onTap: () {
+                        getIt<NavigationHelper>()
+                            .push(context, LiveTrackingView());
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                            color: statusColor.withOp(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: statusColor.withOp(0.3),
+                            )),
+                        child: Text(
+                          'Live Tracking',
+                          style: TextStyle(
+                              color: statusColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
                     ),
                   ],
-                ),
-              )
+                ],
+              ),
             ],
           )
         ],

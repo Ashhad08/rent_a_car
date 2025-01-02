@@ -35,8 +35,12 @@ class VehicleDetailsView extends StatelessWidget {
     ];
     final List<Map<String, String>> rentalInfoItems = [
       {
-        'title': 'Rate Per Day',
+        'title': 'Rate Without Driver',
         'value': 'Rs. 2000',
+      },
+      {
+        'title': 'Rate With Driver',
+        'value': 'Rs. 3000',
       },
       {
         'title': 'Registered City',

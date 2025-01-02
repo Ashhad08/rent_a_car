@@ -4,8 +4,7 @@ class Assets {
 
   static const String iconsAfaqTech = 'assets/icons/afaq_tech.png';
   static const String iconsAvailable = 'assets/icons/available.png';
-  static const String iconsBottomBarShadow =
-      'assets/icons/bottom_bar_shadow.png';
+  static const String iconsBottomBarShadow = 'assets/icons/bottom_bar_shadow.png';
   static const String iconsBuilding = 'assets/icons/building.png';
   static const String iconsCalender = 'assets/icons/calender.png';
   static const String iconsCalender2 = 'assets/icons/calender2.png';
@@ -19,8 +18,10 @@ class Assets {
   static const String iconsCustomers = 'assets/icons/customers.png';
   static const String iconsDashboard = 'assets/icons/dashboard.png';
   static const String iconsDayBook = 'assets/icons/day_book.png';
+  static const String iconsDelete = 'assets/icons/delete.png';
   static const String iconsDrawer = 'assets/icons/drawer.png';
   static const String iconsEdit = 'assets/icons/edit.png';
+  static const String iconsEdit2 = 'assets/icons/edit_2.png';
   static const String iconsEditNote = 'assets/icons/edit_note.png';
   static const String iconsElectricFuel = 'assets/icons/electric_fuel.png';
   static const String iconsExpenses = 'assets/icons/expenses.png';
@@ -28,19 +29,21 @@ class Assets {
   static const String iconsLogout = 'assets/icons/logout.png';
   static const String iconsNotAvailable = 'assets/icons/not_available.png';
   static const String iconsOwners = 'assets/icons/owners.png';
-  static const String iconsReceipetVoucher =
-      'assets/icons/receipet_voucher.png';
+  static const String iconsPromotions = 'assets/icons/promotions.png';
+  static const String iconsReceipetVoucher = 'assets/icons/receipet_voucher.png';
   static const String iconsRentCar = 'assets/icons/rent_car.png';
-  static const String iconsRentalRequests = 'assets/icons/rental_requests.png';
   static const String iconsReturnVehicle = 'assets/icons/return_vehicle.png';
   static const String iconsSettings = 'assets/icons/settings.png';
+  static const String iconsSpeed = 'assets/icons/speed.png';
   static const String iconsUploadCloud = 'assets/icons/upload_cloud.png';
   static const String iconsUploadGallery = 'assets/icons/upload_gallery.png';
   static const String imagesAppLogo = 'assets/images/app_logo.png';
   static const String imagesAppLogoSmall = 'assets/images/app_logo_small.png';
   static const String imagesCarDummy = 'assets/images/car_dummy.png';
   static const String imagesCarDummy2 = 'assets/images/car_dummy_2.png';
+  static const String imagesDummyMap = 'assets/images/dummy_map.png';
   static const String imagesOnboarding1 = 'assets/images/onboarding_1.png';
   static const String imagesOnboarding2 = 'assets/images/onboarding_2.png';
   static const String imagesOnboarding3 = 'assets/images/onboarding_3.png';
+
 }

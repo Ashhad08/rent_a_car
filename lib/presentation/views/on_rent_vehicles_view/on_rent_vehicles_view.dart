@@ -45,6 +45,7 @@ class OnRentVehiclesView extends StatelessWidget {
                     children: [
                       VehicleCard2(
                         status: index % 2 == 0 ? 'Active' : "Returned",
+                        showTrackLocationIcon: index % 2 == 0,
                         statusColor: index % 2 == 0
                             ? Color(0xff06A623)
                             : Color(0xff004ABA),

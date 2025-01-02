@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/extensions.dart';
-import '../../../generated/assets.dart';
+import '../../../navigation/navigation_helper.dart';
 import '../../../utils/utils.dart';
 import '../../elements/gradient_body.dart';
 import '../../elements/vehicle_card_2.dart';
+import '../select_vehicles_view/select_vehicles_view.dart';
 
 class OwnerDetailsView extends StatelessWidget {
   const OwnerDetailsView({super.key});
@@ -104,24 +105,37 @@ class OwnerDetailsView extends StatelessWidget {
                   ),
                 ),
                 18.height,
-                Text(
-                  '3 Vehicle Assigned',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color:
-                          context.colorScheme.onPrimaryContainer.withOp(0.7)),
+                Row(
+                  children: [
+                    Text(
+                      '3 Vehicle Assigned',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: context.colorScheme.onPrimaryContainer
+                              .withOp(0.7)),
+                    ),
+                    Spacer(),
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        fixedSize: Size(24, 24),
+                        iconSize: 20,
+                        backgroundColor: context.colorScheme.secondary,
+                        foregroundColor: context.colorScheme.onPrimary,
+                      ),
+                      onPressed: () {
+                        getIt<NavigationHelper>()
+                            .push(context, SelectVehiclesView());
+                      },
+                      icon: Icon(Icons.add),
+                    ).space(height: 24, width: 24)
+                  ],
                 ),
                 12.height,
                 VehicleCard2(
                   status: 'Assigned',
                   statusColor: Color(0xff004ABA),
-                  statusIcon: Image.asset(
-                    Assets.iconsAvailable,
-                    width: 18,
-                    height: 18,
-                    color: Color(0xff004ABA),
-                  ),
                 ),
               ],
             ),

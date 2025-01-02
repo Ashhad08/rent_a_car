@@ -5,6 +5,8 @@ import '../../../../constants/extensions.dart';
 import '../../../../generated/assets.dart';
 import '../../../../navigation/navigation_helper.dart';
 import '../../../elements/gradient_body.dart';
+import '../../add_fuel_rates/add_fuel_rates.dart';
+import '../../all_promotions_view/all_promotions_view.dart';
 import '../../rental_requests_view/rental_requests_view.dart';
 import '../../return_vehicle_view/return_vehicle_view.dart';
 
@@ -15,7 +17,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> drawerItems = [
       {
-        'icon': Assets.iconsRentalRequests,
+        'icon': Assets.iconsCarFront,
         'title': 'Rental Requests',
         'nextScreen': RentalRequestsView(),
       },
@@ -23,6 +25,16 @@ class AppDrawer extends StatelessWidget {
         'icon': Assets.iconsReturnVehicle,
         'title': 'Return Vehicle',
         'nextScreen': ReturnVehicleView(),
+      },
+      {
+        'icon': Assets.iconsPromotions,
+        'title': 'All Promotions',
+        'nextScreen': AllPromotionsView(),
+      },
+      {
+        'icon': Assets.iconsFuel,
+        'title': 'Add Fuel Rates',
+        'nextScreen': AddFuelRates(),
       },
       {
         'icon': Assets.iconsReceipetVoucher,

@@ -120,7 +120,7 @@ class CustomDropDown extends StatelessWidget {
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         useSafeArea: true,
-        maxHeight: context.screenHeight * 0.2,
+        maxHeight: context.screenHeight * 0.6,
         isOverButton: false,
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: WidgetStateProperty.all(context.colorScheme.outline),

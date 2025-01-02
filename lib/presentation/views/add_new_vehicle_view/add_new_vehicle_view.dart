@@ -263,6 +263,70 @@ class AddNewVehicleView extends StatelessWidget {
                   textInputType: TextInputType.numberWithOptions(
                       decimal: false, signed: false),
                 ),
+                16.height,
+                Text(
+                  'Rate with driver',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: context.colorScheme.onPrimaryContainer.withOp(0.6),
+                  ),
+                ),
+                8.height,
+                AppTextField(
+                  controller: TextEditingController(),
+                  hintText: 'Enter rate with driver',
+                  textInputType: TextInputType.numberWithOptions(
+                      decimal: false, signed: false),
+                ),
+                16.height,
+                Text(
+                  'Rate without driver',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: context.colorScheme.onPrimaryContainer.withOp(0.6),
+                  ),
+                ),
+                8.height,
+                AppTextField(
+                  controller: TextEditingController(),
+                  hintText: 'Enter rate without driver',
+                  textInputType: TextInputType.numberWithOptions(
+                      decimal: false, signed: false),
+                ),
+                16.height,
+                Text(
+                  'Discount on week',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: context.colorScheme.onPrimaryContainer.withOp(0.6),
+                  ),
+                ),
+                8.height,
+                AppTextField(
+                  controller: TextEditingController(),
+                  hintText: 'Enter discount on week',
+                  textInputType: TextInputType.numberWithOptions(
+                      decimal: false, signed: false),
+                ),
+                16.height,
+                Text(
+                  'Discount on month',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: context.colorScheme.onPrimaryContainer.withOp(0.6),
+                  ),
+                ),
+                8.height,
+                AppTextField(
+                  controller: TextEditingController(),
+                  hintText: 'Enter discount on month',
+                  textInputType: TextInputType.numberWithOptions(
+                      decimal: false, signed: false),
+                ),
                 18.height,
                 Text(
                   'Fuel Type',
