@@ -5,8 +5,11 @@ import '../../../../constants/extensions.dart';
 import '../../../../generated/assets.dart';
 import '../../../../navigation/navigation_helper.dart';
 import '../../../elements/gradient_body.dart';
+import '../../add_expenses_view/add_expenses_view.dart';
 import '../../add_fuel_rates/add_fuel_rates.dart';
 import '../../all_promotions_view/all_promotions_view.dart';
+import '../../day_book_view/day_book_view.dart';
+import '../../receipt_voucher_view/receipt_voucher_view.dart';
 import '../../rental_requests_view/rental_requests_view.dart';
 import '../../return_vehicle_view/return_vehicle_view.dart';
 
@@ -39,17 +42,17 @@ class AppDrawer extends StatelessWidget {
       {
         'icon': Assets.iconsReceipetVoucher,
         'title': 'Receipt Voucher',
-        'nextScreen': SizedBox(),
+        'nextScreen': ReceiptVoucherView(),
       },
       {
         'icon': Assets.iconsExpenses,
         'title': 'Expenses',
-        'nextScreen': SizedBox(),
+        'nextScreen': AddExpensesView(),
       },
       {
         'icon': Assets.iconsDayBook,
         'title': 'Day Book',
-        'nextScreen': SizedBox(),
+        'nextScreen': DayBookView(),
       },
     ];
     return Drawer(
