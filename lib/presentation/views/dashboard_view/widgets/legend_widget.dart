@@ -4,9 +4,11 @@ import '../../../../constants/extensions.dart';
 
 class LegendWidget extends StatelessWidget {
   final String title;
-  final Color color;
 
-  const LegendWidget({super.key, required this.title, required this.color});
+  const LegendWidget({
+    super.key,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class LegendWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(radius: 5, backgroundColor: color),
+          CircleAvatar(radius: 5, backgroundColor: context.colorScheme.primary),
           6.width,
           Text(
             title,

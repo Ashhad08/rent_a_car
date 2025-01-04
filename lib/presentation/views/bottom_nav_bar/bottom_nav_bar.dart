@@ -93,7 +93,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         Assets.iconsReturnVehicle,
                         height: 44,
                         width: 44,
-                        color: context.colorScheme.secondary,
+                        color: context.colorScheme.primary,
                       ),
                     ).space(height: 78, width: 78),
                   )
@@ -127,7 +127,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               height: 24,
               width: 24,
               color: isSelected
-                  ? context.colorScheme.secondary
+                  ? context.colorScheme.primary
                   : context.colorScheme.outline,
             ),
             4.height,
@@ -137,7 +137,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: isSelected
-                    ? context.colorScheme.secondary
+                    ? context.colorScheme.primary
                     : context.colorScheme.outline,
               ),
             ),
@@ -145,6 +145,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               Image.asset(
                 Assets.iconsBottomBarShadow,
                 height: 19,
+                color: context.colorScheme.primary,
                 width: double.infinity,
               )
           ],

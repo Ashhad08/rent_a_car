@@ -6,13 +6,11 @@ import '../../../../navigation/navigation_helper.dart';
 class DashboardCard extends StatelessWidget {
   const DashboardCard(
       {super.key,
-      required this.color,
       required this.title,
       required this.data,
       required this.icon,
       required this.nextScreen});
 
-  final Color color;
   final String title;
   final String data;
   final String icon;
@@ -26,7 +24,7 @@ class DashboardCard extends StatelessWidget {
           clipper: CustomClipperForInwardBottomRight(),
           child: Container(
             padding: EdgeInsets.all(14),
-            color: color,
+            color: context.colorScheme.primary,
             height: 130,
             width: double.infinity,
             child: Column(
@@ -61,7 +59,7 @@ class DashboardCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100)),
                     child: ImageIcon(
                       AssetImage(icon),
-                      color: color,
+                      color: context.colorScheme.primary,
                       size: 27,
                     ))
               ],
@@ -77,7 +75,7 @@ class DashboardCard extends StatelessWidget {
             },
             style: ElevatedButton.styleFrom(
                 foregroundColor: context.colorScheme.onPrimary,
-                backgroundColor: color,
+                backgroundColor: context.colorScheme.primary,
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100))),

@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/extensions.dart';
 
 class PieChartView extends StatefulWidget {
@@ -40,25 +39,24 @@ class _PieChartViewState extends State<PieChartView> {
   }
 
   List<PieChartSectionData> _showingSections() {
-    final appColors = getIt<AppColors>();
     final data = [
-      {'color': appColors.kLightBlue, 'value': 40.0, 'title': '150'},
-      {'color': appColors.kRed, 'value': 15.0, 'title': '44'},
-      {'color': appColors.kGreen, 'value': 30.0, 'title': '53'},
-      {'color': appColors.kYellow, 'value': 10.0, 'title': '44'},
+      {'value': 40.0, 'title': '150'},
+      {'value': 15.0, 'title': '44'},
+      {'value': 30.0, 'title': '53'},
+      {'value': 10.0, 'title': '44'},
     ];
 
     return List.generate(data.length, (i) {
       final isTouched = i == touchedIndex;
       return PieChartSectionData(
-        color: data[i]['color'] as Color,
+        color: context.colorScheme.primary,
         value: data[i]['value'] as double,
         title: data[i]['title'] as String,
         titleStyle: const TextStyle(fontSize: 12),
         radius: isTouched ? 45.0 : 40.0,
         badgeWidget: CircleAvatar(
           radius: 5,
-          backgroundColor: data[i]['color'] as Color,
+          backgroundColor: context.colorScheme.primary,
         ),
         badgePositionPercentageOffset: 1.3,
         titlePositionPercentageOffset: 1.7,

@@ -42,6 +42,7 @@ class Assets {
   static const String imagesCarDummy = 'assets/images/car_dummy.png';
   static const String imagesCarDummy2 = 'assets/images/car_dummy_2.png';
   static const String imagesDummyMap = 'assets/images/dummy_map.png';
+  static const String imagesLoginBg = 'assets/images/login_bg.png';
   static const String imagesOnboarding1 = 'assets/images/onboarding_1.png';
   static const String imagesOnboarding2 = 'assets/images/onboarding_2.png';
   static const String imagesOnboarding3 = 'assets/images/onboarding_3.png';
