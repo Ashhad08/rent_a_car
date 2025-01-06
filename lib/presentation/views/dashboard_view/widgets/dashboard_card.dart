@@ -125,3 +125,47 @@ class CustomClipperForInwardBottomRight extends CustomClipper<Path> {
     return false;
   }
 }
+// import 'dart:ui' as ui;
+//
+// //Add this CustomPaint widget to the Widget Tree
+// CustomPaint(
+// size: Size(169, 124),
+// painter: RPSCustomPainter(),
+// )
+//
+// //Copy this CustomPainter code to the Bottom of the File
+// class RPSCustomPainter extends CustomPainter {
+// @override
+// void paint(Canvas canvas, Size size) {
+//
+// Path path_0 = Path();
+// path_0.moveTo(3.51472,3.51472);
+// path_0.cubicTo(0,7.02944,0,12.6863,0,24);
+// path_0.lineTo(0,100);
+// path_0.cubicTo(0,111.314,0,116.971,3.51472,120.485);
+// path_0.cubicTo(7.02944,124,12.6863,124,24,124);
+// path_0.lineTo(107.175,124);
+// path_0.cubicTo(114.626,120.61,114.626,112.24,114.626,112.24);
+// path_0.lineTo(114.626,102.24);
+// path_0.cubicTo(114.626,87.8806,126.266,76.24,140.626,76.24);
+// path_0.lineTo(160.126,76.24);
+// path_0.cubicTo(160.126,76.24,167.626,76.24,168.626,68.24);
+// path_0.cubicTo(168.751,67.237,168.877,66.6113,169,66.284);
+// path_0.lineTo(169,24);
+// path_0.cubicTo(169,12.6863,169,7.02944,165.485,3.51472);
+// path_0.cubicTo(161.971,0,156.314,0,145,0);
+// path_0.lineTo(24,0);
+// path_0.cubicTo(12.6863,0,7.02944,0,3.51472,3.51472);
+// path_0.close();
+//
+// Paint paint_0_fill = Paint()..style=PaintingStyle.fill;
+// paint_0_fill.color = Color(0xff2D466E).withOpacity(1.0);
+// canvas.drawPath(path_0,paint_0_fill);
+//
+// }
+//
+// @override
+// bool shouldRepaint(covariant CustomPainter oldDelegate) {
+// return true;
+// }
+// }

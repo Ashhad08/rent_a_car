@@ -21,9 +21,9 @@ class CustomDropDown extends StatelessWidget {
   final String label;
   final bool enabled;
   final String? errorMessageIfRequired;
-  final List<MapEntry<int, String>> dropdownMenuEntries;
-  final Function(MapEntry<int, String>?) onSelected;
-  final MapEntry<int, String>? initialItem;
+  final List<MapEntry<String, String>> dropdownMenuEntries;
+  final Function(MapEntry<String, String>?) onSelected;
+  final MapEntry<String, String>? initialItem;
   final bool isDense;
   final Widget? prefixIcon;
   final Widget? suffix;
@@ -34,7 +34,7 @@ class CustomDropDown extends StatelessWidget {
       ..sort((a, b) => a.value.compareTo(b.value));
 
     final dropdownItems = sortedEntries.map((entry) {
-      return DropdownMenuItem<int>(
+      return DropdownMenuItem<String>(
         value: entry.key,
         child: Text(
           entry.value,
@@ -43,13 +43,13 @@ class CustomDropDown extends StatelessWidget {
       );
     }).toList();
 
-    return DropdownButtonFormField2<int>(
+    return DropdownButtonFormField2<String>(
       isExpanded: true,
       onChanged: (value) {
         if (value != null) {
           final selectedEntry = sortedEntries.firstWhere(
             (entry) => entry.key == value,
-            orElse: () => MapEntry(-1, ""),
+            orElse: () => MapEntry("", ""),
           );
           onSelected(selectedEntry);
         }

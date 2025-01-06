@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/vehicle/all_vehicles/all_vehicles_bloc.dart';
+import 'blocs/master_data/vehicle_all_colors_bloc/vehicle_all_colors_bloc.dart';
+import 'blocs/master_data/vehicle_all_features_bloc/vehicle_all_features_bloc.dart';
+import 'blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
 import 'configurations/backend_configs.dart';
 import 'configurations/error_messages.dart';
 import 'constants/app_colors.dart';
 import 'constants/extensions.dart';
 import 'constants/theme.dart';
-import 'domain/implementations/vehicle_api_repository.dart';
+import 'domain/implementations/master_data/master_data_repository.dart';
 import 'navigation/navigation_helper.dart';
 import 'network/network_repository.dart';
 import 'presentation/views/onboarding/splash_view/splash_view.dart';
@@ -23,9 +25,10 @@ void main() {
   getIt.registerSingleton(NetworkRepository(
     errorMessages: getIt<ErrorMessages>(),
   ));
-  getIt.registerSingleton(VehicleApiRepository(
-      backendConfigs: getIt<BackendConfigs>(),
-      networkRepository: getIt<NetworkRepository>()));
+  getIt.registerSingleton(MasterDataRepository(
+    backendConfigs: getIt<BackendConfigs>(),
+    networkRepository: getIt<NetworkRepository>(),
+  ));
   runApp(const RentACar());
 }
 
@@ -36,9 +39,23 @@ class RentACar extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AllVehiclesBloc>(
-          create: (context) => AllVehiclesBloc(getIt<VehicleApiRepository>())
-            ..add(LoadAllVehiclesEvent()),
+        BlocProvider<VehicleAllColorsBloc>(
+          lazy: false,
+          create: (context) =>
+              VehicleAllColorsBloc(getIt<MasterDataRepository>())
+                ..add(LoadVehicleAllColorsEvent()),
+        ),
+        BlocProvider<VehicleAllFeaturesBloc>(
+          lazy: false,
+          create: (context) =>
+              VehicleAllFeaturesBloc(getIt<MasterDataRepository>())
+                ..add(LoadVehicleAllFeaturesEvent()),
+        ),
+        BlocProvider<VehicleAllTypesBloc>(
+          lazy: false,
+          create: (context) =>
+              VehicleAllTypesBloc(getIt<MasterDataRepository>())
+                ..add(LoadVehicleAllTypesEvent()),
         )
       ],
       child: MaterialApp(

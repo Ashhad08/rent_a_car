@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:retry/retry.dart';
 
 import '../../configurations/error_messages.dart';
 
@@ -28,9 +29,12 @@ class NetworkRepository {
               .map((key, value) => MapEntry(key, value.toString())),
         );
       }
-      final res = await http
-          .get(uri, headers: headers)
-          .timeout(const Duration(minutes: 1));
+      final res = await retry(
+        () =>
+            http.get(uri, headers: headers).timeout(const Duration(minutes: 1)),
+        maxAttempts: 5,
+        retryIf: (e) => e is SocketException || e is TimeoutException,
+      );
       return _handleResponse(res.statusCode, res.body, res.reasonPhrase);
     } on SocketException {
       throw _errorMessages.noInternetException;
@@ -61,13 +65,18 @@ class NetworkRepository {
               .map((key, value) => MapEntry(key, value.toString())),
         );
       }
-      final res = await http
-          .post(
-            uri,
-            headers: headers,
-            body: data != null ? jsonEncode(data) : null,
-          )
-          .timeout(const Duration(minutes: 3));
+      final res = await retry(
+        () => http
+            .post(
+              uri,
+              headers: headers,
+              body: data != null ? jsonEncode(data) : null,
+            )
+            .timeout(const Duration(minutes: 3)),
+        maxAttempts: 5,
+        retryIf: (e) => e is SocketException || e is TimeoutException,
+      );
+
       return _handleResponse(res.statusCode, res.body, res.reasonPhrase);
     } on SocketException {
       throw _errorMessages.noInternetException;
@@ -98,13 +107,17 @@ class NetworkRepository {
               .map((key, value) => MapEntry(key, value.toString())),
         );
       }
-      final res = await http
-          .put(
-            uri,
-            headers: headers,
-            body: data != null ? jsonEncode(data) : null,
-          )
-          .timeout(const Duration(minutes: 3));
+      final res = await retry(
+        () => http
+            .put(
+              uri,
+              headers: headers,
+              body: data != null ? jsonEncode(data) : null,
+            )
+            .timeout(const Duration(minutes: 3)),
+        maxAttempts: 5,
+        retryIf: (e) => e is SocketException || e is TimeoutException,
+      );
       return _handleResponse(res.statusCode, res.body, res.reasonPhrase);
     } on SocketException {
       throw _errorMessages.noInternetException;
@@ -135,13 +148,18 @@ class NetworkRepository {
               .map((key, value) => MapEntry(key, value.toString())),
         );
       }
-      final res = await http
-          .delete(
-            uri,
-            headers: headers,
-            body: data != null ? jsonEncode(data) : null,
-          )
-          .timeout(const Duration(minutes: 3));
+      final res = await retry(
+        () => http
+            .delete(
+              uri,
+              headers: headers,
+              body: data != null ? jsonEncode(data) : null,
+            )
+            .timeout(const Duration(minutes: 3)),
+        maxAttempts: 5,
+        retryIf: (e) => e is SocketException || e is TimeoutException,
+      );
+
       return _handleResponse(res.statusCode, res.body, res.reasonPhrase);
     } on SocketException {
       throw _errorMessages.noInternetException;
@@ -165,6 +183,9 @@ class NetworkRepository {
       body = jsonDecode(body);
     } catch (e) {
       body = body.toString();
+    }
+    if (body["status"] == "error") {
+      throw body["message"];
     }
     switch (statusCode) {
       case 200:
@@ -241,7 +262,11 @@ class NetworkRepository {
         request.files.addAll(files);
       }
 
-      http.StreamedResponse res = await request.send();
+      final res = await retry(
+        () => request.send().timeout(const Duration(minutes: 3)),
+        maxAttempts: 5,
+        retryIf: (e) => e is SocketException || e is TimeoutException,
+      );
       return _handleResponse(
           res.statusCode, (await res.stream.bytesToString()), res.reasonPhrase);
     } on SocketException {
@@ -293,7 +318,11 @@ class NetworkRepository {
         request.files.addAll(files);
       }
 
-      http.StreamedResponse res = await request.send();
+      final res = await retry(
+            () => request.send().timeout(const Duration(minutes: 3)),
+        maxAttempts: 5,
+        retryIf: (e) => e is SocketException || e is TimeoutException,
+      );
       return _handleResponse(
           res.statusCode, (await res.stream.bytesToString()), res.reasonPhrase);
     } on SocketException {
