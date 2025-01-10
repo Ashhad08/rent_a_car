@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
 import '../../constants/extensions.dart';
-import '../../generated/assets.dart';
+import '../../data/models/master_data/vehicle_model_model.dart';
+import '../../data/models/vehicle/vehicle_model.dart';
+import '../../domain/implementations/master_data/master_data_repository.dart';
 import '../../navigation/navigation_helper.dart';
 import '../views/live_tracking_view/live_tracking_view.dart';
+import '../views/return_vehicle_view/return_vehicle_view.dart';
 
 class VehicleCard2 extends StatelessWidget {
   const VehicleCard2({
@@ -12,20 +17,34 @@ class VehicleCard2 extends StatelessWidget {
     required this.statusColor,
     this.statusIcon,
     this.showTrackLocationIcon = false,
+    required this.vehicle,
+    this.showReturnVehicleIcon = false,
   });
 
   final String status;
   final Color statusColor;
   final Widget? statusIcon;
   final bool showTrackLocationIcon;
+  final bool showReturnVehicleIcon;
+  final VehicleModel vehicle;
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<VehicleAllTypesBloc>().state;
+    String vehicleType = '';
+    if (state is VehicleAllTypesLoaded) {
+      vehicleType = state.allTypes
+              .where(
+                (element) => element.id == vehicle.carTypeId,
+              )
+              .firstOrNull
+              ?.typeName ??
+          "";
+    }
     final vehicleDetails = [
-      {'label': 'Suzuki', 'value': 'Altas 2024'},
-      {'label': 'Color', 'value': 'Black'},
-      {'label': 'City', 'value': 'Lahore'},
-      {'label': 'Rate', 'value': 'Rs.1000/day'},
+      {'label': 'Color', 'value': vehicle.color ?? ""},
+      {'label': 'City', 'value': vehicle.regCity ?? ""},
+      {'label': 'Rate', 'value': 'Rs.${vehicle.rateWithoutDriver ?? ""}'},
     ];
     return Container(
       width: double.infinity,
@@ -38,33 +57,50 @@ class VehicleCard2 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              Assets.imagesCarDummy,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
+              borderRadius: BorderRadius.circular(10),
+              child: vehicle.images?.firstOrNull != null
+                  ? Image.network(
+                      vehicle.images!.firstOrNull!,
+                      height: 150,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
+                  : SizedBox(
+                      height: 150,
+                      width: double.infinity,
+                    )),
           12.height,
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                   child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(
-                  vehicleDetails.length,
-                  (index) {
-                    final detail = vehicleDetails[index];
-                    return _buildDetailRow(
-                      detail['label']!,
-                      detail['value']!,
-                      isLast: index == vehicleDetails.length - 1,
-                    );
-                  },
-                ),
-              )),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                    FutureBuilder<VehicleModelModel?>(
+                        future: getIt<MasterDataRepository>()
+                            .getVehicleModelModelById(
+                                vehicleModelId: vehicle.carModelId ?? ""),
+                        builder: (context, snap) {
+                          return _buildDetailRow(
+                            vehicleType,
+                            '${snap.data?.modelName ?? ""} ${vehicle.yearOfModel ?? ""}',
+                            isLast: false,
+                          );
+                        }),
+                    ...List.generate(
+                      vehicleDetails.length,
+                      (index) {
+                        final detail = vehicleDetails[index];
+                        return _buildDetailRow(
+                          detail['label']!,
+                          detail['value']!,
+                          isLast: index == vehicleDetails.length - 1,
+                        );
+                      },
+                    ),
+                  ])),
               10.width,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -114,6 +150,33 @@ class VehicleCard2 extends StatelessWidget {
                             )),
                         child: Text(
                           'Live Tracking',
+                          style: TextStyle(
+                              color: statusColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (showReturnVehicleIcon) ...[
+                    5.height,
+                    InkWell(
+                      onTap: () {
+                        getIt<NavigationHelper>()
+                            .push(context, ReturnVehicleView());
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                            color: statusColor.withOp(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: statusColor.withOp(0.3),
+                            )),
+                        child: Text(
+                          'Return Vehicle',
                           style: TextStyle(
                               color: statusColor,
                               fontSize: 12,

@@ -1,28 +1,25 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'images_selection_event.dart';
-part 'images_selection_state.dart';
+part 'vehicle_images_event.dart';
+part 'vehicle_images_state.dart';
 
-class ImagesSelectionBloc
-    extends Bloc<ImagesSelectionEvent, ImagesSelectionState> {
+class VehicleImagesBloc extends Bloc<VehicleImagesEvent, VehicleImagesState> {
   final int maxLength;
   final List<dynamic>? images;
 
-  ImagesSelectionBloc({required this.maxLength, this.images})
-      : super(ImagesSelectionState(
+  VehicleImagesBloc({required this.maxLength, this.images})
+      : super(VehicleImagesState(
             images: images ?? [], deletedLinks: [], maxLength: maxLength)) {
     on<AddFileImage>(_onAddFileImage);
     on<RemoveImage>(_onRemoveImage);
   }
 
-  void _onAddFileImage(AddFileImage event, Emitter<ImagesSelectionState> emit) {
+  void _onAddFileImage(AddFileImage event, Emitter<VehicleImagesState> emit) {
     emit(state.copyWith(images: [...state.images, event.image]));
   }
 
-  void _onRemoveImage(RemoveImage event, Emitter<ImagesSelectionState> emit) {
+  void _onRemoveImage(RemoveImage event, Emitter<VehicleImagesState> emit) {
     final updatedImages = List<dynamic>.from(state.images);
     final updatedDeletedLinks = List<String>.from(state.deletedLinks);
 

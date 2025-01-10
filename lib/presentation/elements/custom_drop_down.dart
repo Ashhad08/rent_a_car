@@ -64,6 +64,12 @@ class CustomDropDown extends StatelessWidget {
       ),
       decoration: InputDecoration(
         enabled: enabled,
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: context.colorScheme.outline.withOp(0.1),
+          ),
+        ),
         isDense: isDense,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

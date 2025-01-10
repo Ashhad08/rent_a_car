@@ -19,6 +19,7 @@ class VehicleAllColorsBloc
   Future<void> _onLoadVehicleAllColorsEvent(LoadVehicleAllColorsEvent event,
       Emitter<VehicleAllColorsState> emit) async {
     try {
+      emit(VehicleAllColorsLoading());
       final response = await _masterDataRepository.getVehicleAllColors();
       emit(VehicleAllColorsLoaded(allColors: response));
     } catch (e) {

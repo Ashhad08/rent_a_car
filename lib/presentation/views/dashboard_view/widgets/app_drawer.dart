@@ -25,11 +25,6 @@ class AppDrawer extends StatelessWidget {
         'nextScreen': RentalRequestsView(),
       },
       {
-        'icon': Assets.iconsReturnVehicle,
-        'title': 'Return Vehicle',
-        'nextScreen': ReturnVehicleView(),
-      },
-      {
         'icon': Assets.iconsPromotions,
         'title': 'All Promotions',
         'nextScreen': AllPromotionsView(),

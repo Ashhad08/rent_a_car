@@ -20,6 +20,7 @@ class VehicleAllFeaturesBloc
   Future<void> _onLoadVehicleAllFeaturesEvent(LoadVehicleAllFeaturesEvent event,
       Emitter<VehicleAllFeaturesState> emit) async {
     try {
+      emit(VehicleAllFeaturesLoading());
       final response = await _masterDataRepository.getVehicleAllFeatures();
       emit(VehicleAllFeaturesLoaded(allFeatures: response));
     } catch (e) {

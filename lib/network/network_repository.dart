@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -29,6 +30,7 @@ class NetworkRepository {
               .map((key, value) => MapEntry(key, value.toString())),
         );
       }
+      log(uri.toString());
       final res = await retry(
         () =>
             http.get(uri, headers: headers).timeout(const Duration(minutes: 1)),
@@ -184,7 +186,8 @@ class NetworkRepository {
     } catch (e) {
       body = body.toString();
     }
-    if (body["status"] == "error") {
+    log(body.toString());
+    if (body is Map<String, dynamic> && body["status"] == "error") {
       throw body["message"];
     }
     switch (statusCode) {
@@ -319,7 +322,7 @@ class NetworkRepository {
       }
 
       final res = await retry(
-            () => request.send().timeout(const Duration(minutes: 3)),
+        () => request.send().timeout(const Duration(minutes: 3)),
         maxAttempts: 5,
         retryIf: (e) => e is SocketException || e is TimeoutException,
       );

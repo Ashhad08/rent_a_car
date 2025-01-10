@@ -5,7 +5,6 @@ import '../../../data/models/master_data/vehicle_model_model.dart';
 import '../../../domain/implementations/master_data/master_data_repository.dart';
 
 part 'vehicle_models_by_type_event.dart';
-
 part 'vehicle_models_by_type_state.dart';
 
 class VehicleModelsByTypeBloc
@@ -21,6 +20,7 @@ class VehicleModelsByTypeBloc
       LoadVehicleModelsByTypeEvent event,
       Emitter<VehicleModelsByTypeState> emit) async {
     try {
+      emit(VehicleModelsByTypeLoading());
       final response = await _masterDataRepository
           .getVehicleModelsForVehicleType(vehicleTypeId: event.typeId);
       emit(VehicleModelsByTypeLoaded(modelsByType: response));

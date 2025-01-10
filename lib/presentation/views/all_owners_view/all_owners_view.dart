@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/owner/all_owners/all_owners_bloc.dart';
 import '../../../constants/extensions.dart';
 import '../../../navigation/navigation_helper.dart';
 import '../../elements/app_text_field.dart';
@@ -33,47 +35,77 @@ class AllOwnersView extends StatelessWidget {
                 ),
               ),
               10.height,
-              Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.only(bottom: 20),
-                  separatorBuilder: (context, index) => 14.height,
-                  itemCount: 10,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => Material(
-                    color: Colors.transparent,
-                    child: ListTile(
-                      leading: CircleAvatar(),
-                      onTap: () {
-                        getIt<NavigationHelper>()
-                            .push(context, OwnerDetailsView());
-                      },
-                      style: ListTileStyle.list,
-                      tileColor: context.colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          side: BorderSide(
-                              color: context.colorScheme.outline.withOp(0.5))),
-                      title: Text(
-                        'Brooklyn Simmons',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400),
+              Expanded(child: BlocBuilder<AllOwnersBloc, AllOwnersState>(
+                builder: (context, state) {
+                  if (state is AllOwnersLoaded) {
+                    return RefreshIndicator.adaptive(
+                      onRefresh: () async => context.read<AllOwnersBloc>().add(
+                            LoadAllOwnersEvent(),
+                          ),
+                      child: ListView.separated(
+                        padding: EdgeInsets.only(bottom: 20),
+                        separatorBuilder: (context, index) => 14.height,
+                        itemCount: state.owners.length,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final ownerInfo = state.owners[index].ownerInfo;
+                          if (ownerInfo == null) return null;
+                          return Material(
+                            color: Colors.transparent,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: ownerInfo.ownerImage == null
+                                    ? null
+                                    : NetworkImage(ownerInfo.ownerImage!),
+                              ),
+                              onTap: () {
+                                getIt<NavigationHelper>().push(
+                                    context,
+                                    OwnerDetailsView(
+                                      owner: state.owners[index],
+                                    ));
+                              },
+                              style: ListTileStyle.list,
+                              tileColor: context.colorScheme.onPrimary,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                  side: BorderSide(
+                                      color: context.colorScheme.outline
+                                          .withOp(0.5))),
+                              title: Text(
+                                ownerInfo.ownerName ?? "",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              ),
+                              trailing: Icon(
+                                Icons.adaptive.arrow_forward,
+                                color: context.colorScheme.outline,
+                              ),
+                              subtitle: Text(
+                                ownerInfo.mobileNumber ?? "",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: context.theme.listTileTheme
+                                        .subtitleTextStyle?.color),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      trailing: Icon(
-                        Icons.adaptive.arrow_forward,
-                        color: context.colorScheme.outline,
-                      ),
-                      subtitle: Text(
-                        '+92 123456789',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: context
-                                .theme.listTileTheme.subtitleTextStyle?.color),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+                    );
+                  }
+                  if (state is AllOwnersError) {
+                    return Center(
+                      child: Text(state.error),
+                    );
+                  }
+
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                },
+              )),
               83.height,
             ],
           ),

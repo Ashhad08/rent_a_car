@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants/extensions.dart';
+import '../../../data/models/vehicle/vehicle_model.dart';
 import '../../../utils/utils.dart';
 import '../../elements/app_text_field.dart';
 import '../../elements/gradient_body.dart';
@@ -44,12 +45,17 @@ class OnRentVehiclesView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       VehicleCard2(
-                        status: index % 2 == 0 ? 'Active' : "Returned",
-                        showTrackLocationIcon: index % 2 == 0,
-                        statusColor: index % 2 == 0
-                            ? Color(0xff06A623)
-                            : Color(0xff004ABA),
-                      ),
+                          status: 'Active',
+                          showTrackLocationIcon: true,
+                          showReturnVehicleIcon: true,
+                          vehicle: VehicleModel(
+                            id: index.toString(),
+                            carTypeId: "1",
+                            color: 'Black',
+                            regCity: 'Lahore',
+                            rateWithoutDriver: "1000",
+                          ),
+                          statusColor: Color(0xff06A623)),
                       12.height,
                       Material(
                         color: Colors.transparent,

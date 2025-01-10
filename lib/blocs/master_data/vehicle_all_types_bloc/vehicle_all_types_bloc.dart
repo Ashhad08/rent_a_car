@@ -19,6 +19,7 @@ class VehicleAllTypesBloc
   Future<void> _onLoadVehicleAllTypesEvent(LoadVehicleAllTypesEvent event,
       Emitter<VehicleAllTypesState> emit) async {
     try {
+      emit(VehicleAllTypesLoading());
       final response = await _masterDataRepository.getVehicleAllTypes();
       emit(VehicleAllTypesLoaded(allTypes: response));
     } catch (e) {

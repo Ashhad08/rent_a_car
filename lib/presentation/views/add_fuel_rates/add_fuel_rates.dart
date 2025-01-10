@@ -1,139 +1,253 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 
+import '../../../blocs/loading_bloc/loading_bloc.dart';
+import '../../../blocs/master_data/all_fuel_types_bloc/all_fuel_types_bloc.dart';
 import '../../../constants/extensions.dart';
+import '../../../domain/implementations/vehicle/vehicle_repository.dart';
+import '../../../navigation/navigation_helper.dart';
 import '../../../utils/utils.dart';
 import '../../elements/app_text_field.dart';
 import '../../elements/custom_drop_down.dart';
 import '../../elements/custom_elevated_button.dart';
 import '../../elements/gradient_body.dart';
 
-class AddFuelRates extends StatelessWidget {
+class AddFuelRates extends StatefulWidget {
   const AddFuelRates({super.key});
 
   @override
+  State<AddFuelRates> createState() => _AddFuelRatesState();
+}
+
+class _AddFuelRatesState extends State<AddFuelRates> {
+  MapEntry<String, String>? _selectedFuelType;
+  final TextEditingController _rateController = TextEditingController();
+  final _key = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
-    final fuelRates = [
-      MapEntry('Petrol (Super)', '252.1'),
-      MapEntry('High-speed diesel', '255.38'),
-      MapEntry('Light-speed diesel', '148.95'),
-      MapEntry('Kerosene', '161.66'),
-      MapEntry('Liquefied petroleum gas (LPG)', '254.86'),
-      MapEntry('Compressed Natural gas (CNG)', '190'),
-    ];
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        leading: getIt<Utils>().popIcon(context),
-        title: const Text('Add Fuel Rates'),
-      ),
-      body: GradientBody(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.onPrimary,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: context.colorScheme.outline.withOp(0.7),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Fuel Type',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: context.colorScheme.onPrimaryContainer
-                                .withOp(0.7)),
-                      ),
-                      8.height,
-                      CustomDropDown(
-                          isDense: true,
-                          label: 'Select Type',
-                          dropdownMenuEntries: [
-                            MapEntry("0", "Petrol (Super)"),
-                            MapEntry("1", "High-speed diesel"),
-                            MapEntry("2", "Light-speed diesel"),
-                            MapEntry("3", "Kerosene"),
-                            MapEntry("4", "Liquefied petroleum gas (LPG)"),
-                            MapEntry("5", "Compressed Natural gas (CNG)"),
-                          ],
-                          onSelected: (val) {},
-                          enabled: true,
-                          initialItem: null),
-                      8.height,
-                      AppTextField(
-                        controller: TextEditingController(),
-                        hintText: 'Enter Fuel Rate',
-                      ),
-                    ],
-                  ),
-                ),
-                20.height,
-                CustomElevatedButton(
-                  onPressed: () {},
-                  text: 'Save Rates',
-                ),
-                18.height,
-                Text(
-                  'Current Rates',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                ),
-                12.height,
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 17),
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.onPrimary,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: context.colorScheme.outline.withOp(0.7),
-                    ),
-                  ),
-                  child: Column(
-                    spacing: 20,
-                    children: fuelRates
-                        .map(
-                          (e) => Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  e.key,
+    return BlocProvider(
+      create: (context) => LoadingBloc(),
+      child: Builder(builder: (context) {
+        return LoadingOverlay(
+          isLoading: context.select((LoadingBloc bloc) => bloc.state.isLoading),
+          color: context.colorScheme.primary.withOp(0.2),
+          progressIndicator: CircularProgressIndicator.adaptive(
+            backgroundColor: context.colorScheme.onPrimary,
+          ),
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              leading: getIt<Utils>().popIcon(context),
+              title: const Text('Add Fuel Rates'),
+            ),
+            body: BlocBuilder<AllFuelTypesBloc, AllFuelTypesState>(
+              builder: (context, state) {
+                if (state is AllFuelTypesError) {
+                  return GradientBody(
+                      child: Center(
+                    child: Text(state.error),
+                  ));
+                } else if (state is AllFuelTypesLoaded) {
+                  final fuelTypes = state.fuelTypes;
+                  return GradientBody(
+                    child: RefreshIndicator(
+                      onRefresh: () async => context
+                          .read<AllFuelTypesBloc>()
+                          .add(LoadAllFuelTypesEvent()),
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Form(
+                            key: _key,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 20),
+                                  decoration: BoxDecoration(
+                                    color: context.colorScheme.onPrimary,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: context.colorScheme.outline
+                                          .withOp(0.7),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Fuel Type',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: context
+                                                .colorScheme.onPrimaryContainer
+                                                .withOp(0.7)),
+                                      ),
+                                      8.height,
+                                      CustomDropDown(
+                                        errorMessageIfRequired:
+                                            'Kindly Select Type',
+                                        label: 'Select Type',
+                                        dropdownMenuEntries: (fuelTypes.map(
+                                          (e) => MapEntry(
+                                              e.id ?? "", e.fuelName ?? ""),
+                                        )).toList(),
+                                        onSelected: (val) {
+                                          if (val != null) {
+                                            _selectedFuelType = val;
+                                          }
+                                        },
+                                        enabled: true,
+                                        initialItem: _selectedFuelType,
+                                      ),
+                                      8.height,
+                                      AppTextField(
+                                        controller: _rateController,
+                                        textInputType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: true),
+                                        validator: (val) {
+                                          if (val == null || val.isEmpty) {
+                                            return 'Kindly enter rate';
+                                          } else if (val.isNotEmpty &&
+                                              !val.isDecimalPositiveNumber) {
+                                            return 'Kindly enter valid rate';
+                                          }
+                                          return null;
+                                        },
+                                        hintText: 'Enter Fuel Rate',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                20.height,
+                                CustomElevatedButton(
+                                  onPressed: () async {
+                                    final utils = getIt<Utils>();
+                                    if (_key.currentState!.validate() &&
+                                        !context
+                                            .read<LoadingBloc>()
+                                            .state
+                                            .isLoading) {
+                                      final repo = getIt<VehicleRepository>();
+
+                                      try {
+                                        context
+                                            .read<LoadingBloc>()
+                                            .add(StartLoading());
+                                        final fuelType = fuelTypes
+                                            .where(
+                                              (element) =>
+                                                  element.id ==
+                                                  _selectedFuelType?.key,
+                                            )
+                                            .first;
+                                        final res = await repo
+                                            .updateFuelRate(fuelType.copyWith(
+                                          fuelRate: num.tryParse(
+                                              _rateController.text.trim()),
+                                        ));
+                                        if (mounted && context.mounted) {
+                                          context
+                                              .read<LoadingBloc>()
+                                              .add(StopLoading());
+                                          context
+                                              .read<AllFuelTypesBloc>()
+                                              .add(LoadAllFuelTypesEvent());
+                                          getIt<NavigationHelper>()
+                                              .pop(context);
+                                          utils.showSuccessFlushBar(context,
+                                              message: res.message ??
+                                                  "Fuel Rate Updated Successfully");
+                                        }
+                                      } catch (e, stackTrace) {
+                                        if (context.mounted) {
+                                          debugPrint(stackTrace.toString());
+                                          context
+                                              .read<LoadingBloc>()
+                                              .add(StopLoading());
+                                          utils.showErrorFlushBar(context,
+                                              message: e.toString());
+                                        }
+                                      }
+                                    }
+                                  },
+                                  text: 'Save Rates',
+                                ),
+                                18.height,
+                                Text(
+                                  'Current Rates',
                                   style: TextStyle(
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: context
-                                          .colorScheme.onPrimaryContainer
-                                          .withOp(0.5)),
+                                      fontWeight: FontWeight.w600),
                                 ),
-                              ),
-                              10.width,
-                              Text(
-                                e.value,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
+                                12.height,
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 17),
+                                  decoration: BoxDecoration(
+                                    color: context.colorScheme.onPrimary,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: context.colorScheme.outline
+                                          .withOp(0.7),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    spacing: 20,
+                                    children: fuelTypes
+                                        .map(
+                                          (e) => Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  e.fuelName ?? "",
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: context.colorScheme
+                                                          .onPrimaryContainer
+                                                          .withOp(0.5)),
+                                                ),
+                                              ),
+                                              10.width,
+                                              Text(
+                                                (e.fuelRate ?? 0).toString(),
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                        .toList(),
-                  ),
-                )
-              ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return GradientBody(
+                    child: Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ));
+              },
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

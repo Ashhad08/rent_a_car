@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants/extensions.dart';
+import '../../../data/models/owner/owner_model.dart';
 import '../../../navigation/navigation_helper.dart';
 import '../../../utils/utils.dart';
 import '../../elements/gradient_body.dart';
 import '../../elements/vehicle_card_2.dart';
-import '../select_vehicles_view/select_vehicles_view.dart';
+import '../assign_vehicles_to_owner_view/assign_vehicles_to_owner_view.dart';
 
 class OwnerDetailsView extends StatelessWidget {
-  const OwnerDetailsView({super.key});
+  const OwnerDetailsView({super.key, required this.owner});
+
+  final OwnerModel owner;
 
   @override
   Widget build(BuildContext context) {
-    final List<MapEntry<String, dynamic>> ownersInfo = [
-      MapEntry('Owner Code', 'OWN12345'),
-      MapEntry('Date From', '01-01-2024'),
-      MapEntry('Owner Name', 'Ahmad Ali'),
-      MapEntry('Father Name', 'Muhammad Akram'),
-      MapEntry('CNIC Number', '42101-1234567-9'),
-      MapEntry('Address', 'Street 5 Model Town'),
-      MapEntry('City', 'Lahore'),
-      MapEntry('Mobile No', '0301-1234567'),
-      MapEntry('Residence Phone', '0301-1234567'),
-      MapEntry('Profession', 'UI/UX Designer'),
+    final List<MapEntry<String, String>> ownersInfo = [
+      MapEntry('Owner Code', owner.ownerInfo?.ownerCode ?? ""),
+      MapEntry(
+          'Date From',
+          owner.ownerInfo?.dateFrom == null
+              ? ''
+              : DateFormat('dd-MM-yyyy').format(owner.ownerInfo!.dateFrom!)),
+      MapEntry('Owner Name', owner.ownerInfo?.ownerName ?? ""),
+      MapEntry('Father Name', owner.ownerInfo?.fatherName ?? ''),
+      MapEntry('CNIC Number', owner.ownerInfo?.cnic ?? ''),
+      MapEntry('Address', owner.ownerInfo?.address ?? ""),
+      MapEntry('City', owner.ownerInfo?.city ?? ""),
+      MapEntry('Mobile No', owner.ownerInfo?.mobileNumber ?? ""),
+      MapEntry('Residence Phone', owner.ownerInfo?.resedenceNumber ?? ""),
+      MapEntry('Profession', owner.ownerInfo?.profession ?? ""),
     ];
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -40,7 +48,11 @@ class OwnerDetailsView extends StatelessWidget {
                 Material(
                   color: Colors.transparent,
                   child: ListTile(
-                    leading: CircleAvatar(),
+                    leading: CircleAvatar(
+                      backgroundImage: owner.ownerInfo?.ownerImage == null
+                          ? null
+                          : NetworkImage(owner.ownerInfo!.ownerImage!),
+                    ),
                     style: ListTileStyle.list,
                     tileColor: context.colorScheme.onPrimary,
                     shape: RoundedRectangleBorder(
@@ -48,12 +60,12 @@ class OwnerDetailsView extends StatelessWidget {
                         side: BorderSide(
                             color: context.colorScheme.outline.withOp(0.5))),
                     title: Text(
-                      'Brooklyn Simmons',
+                      owner.ownerInfo?.ownerName ?? "",
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                     ),
                     subtitle: Text(
-                      '+92 123456789',
+                      owner.ownerInfo?.mobileNumber ?? "",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -108,7 +120,7 @@ class OwnerDetailsView extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '3 Vehicle Assigned',
+                      '${(owner.vehicles ?? [].length) == 0 ? "No" : (owner.vehicles ?? []).length} ${(owner.vehicles ?? []).length == 1 ? "Vehicle" : 'Vehicles'} Assigned',
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -125,17 +137,27 @@ class OwnerDetailsView extends StatelessWidget {
                         foregroundColor: context.colorScheme.onPrimary,
                       ),
                       onPressed: () {
-                        getIt<NavigationHelper>()
-                            .push(context, SelectVehiclesView());
+                        getIt<NavigationHelper>().push(
+                            context,
+                            AssignVehiclesToOwnerView(
+                              assignedVehicles: owner.vehicles ?? [],
+                              owner: owner.ownerInfo!,
+                            ));
                       },
                       icon: Icon(Icons.add),
                     ).space(height: 24, width: 24)
                   ],
                 ),
                 12.height,
-                VehicleCard2(
-                  status: 'Assigned',
-                  statusColor: Color(0xff004ABA),
+                ...(owner.vehicles ?? []).map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: VehicleCard2(
+                      status: 'Assigned',
+                      vehicle: e,
+                      statusColor: Color(0xff004ABA),
+                    ),
+                  ),
                 ),
               ],
             ),

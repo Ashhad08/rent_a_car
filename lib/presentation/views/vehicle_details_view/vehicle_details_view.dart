@@ -1,102 +1,112 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/master_data/vehicle_all_features_bloc/vehicle_all_features_bloc.dart';
+import '../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
 import '../../../constants/extensions.dart';
+import '../../../data/models/master_data/vehicle_model_model.dart';
+import '../../../data/models/vehicle/vehicle_model.dart';
+import '../../../domain/implementations/master_data/master_data_repository.dart';
 import '../../../generated/assets.dart';
+import '../../../navigation/navigation_helper.dart';
 import '../../../utils/utils.dart';
+import '../../elements/custom_elevated_button.dart';
 import '../../elements/gradient_body.dart';
+import '../vehicle_booking_request_view/vehicle_booking_request_view.dart';
 
 class VehicleDetailsView extends StatelessWidget {
-  const VehicleDetailsView({super.key});
+  const VehicleDetailsView({super.key, required this.vehicle});
+
+  final VehicleModel vehicle;
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<VehicleAllTypesBloc>().state;
+    String vehicleType = '';
+    if (state is VehicleAllTypesLoaded) {
+      vehicleType = state.allTypes
+              .where(
+                (element) => element.id == vehicle.carTypeId,
+              )
+              .firstOrNull
+              ?.typeName ??
+          "";
+    }
     final List<Map<String, String>> overViewItems = [
-      {
-        'image': Assets.iconsCarFront,
-        'title': 'Make',
-        'value': 'Honda',
-      },
-      {
-        'image': Assets.iconsCar3,
-        'title': 'Model',
-        'value': 'Civic',
-      },
+      // {
+      //   'image': Assets.iconsCarFront,
+      //   'title': 'Make',
+      //   'value': 'Honda',
+      // },
       {
         'image': Assets.iconsCalender,
         'title': 'Year',
-        'value': '2024',
+        'value': vehicle.yearOfModel ?? "",
       },
       {
         'image': Assets.iconsColor,
         'title': 'Color',
-        'value': 'Gray',
+        'value': vehicle.color ?? "",
       },
     ];
     final List<Map<String, String>> rentalInfoItems = [
       {
         'title': 'Rate Without Driver',
-        'value': 'Rs. 2000',
+        'value': 'Rs. ${vehicle.rateWithoutDriver ?? ""}',
       },
       {
         'title': 'Rate With Driver',
-        'value': 'Rs. 3000',
+        'value': 'Rs. ${vehicle.rateWithDriver ?? ""}',
+      },
+      {
+        'title': 'Rate With Driver',
+        'value': 'Rs. ${vehicle.rateWithDriver ?? ""}',
+      },
+      {
+        'title': 'Rate With Driver',
+        'value': 'Rs. ${vehicle.rateWithDriver ?? ""}',
+      },
+      {
+        'title': 'Weekly Discount',
+        'value': '${vehicle.discountWeek ?? ""}%',
+      },
+      {
+        'title': 'Monthly Discount',
+        'value': '${vehicle.discountMonth ?? ""}%',
       },
       {
         'title': 'Registered City',
-        'value': 'Lahore',
+        'value': vehicle.regCity ?? "",
       },
       {
         'title': 'Vehicle Type',
-        'value': 'Car',
+        'value': vehicleType,
       },
       {
         'title': 'Status',
-        'value': 'Available',
+        'value': (vehicle.status ?? "available").capitalizeFirst,
       },
     ];
     final List<Map<String, String>> vehicleSpecification = [
       {
         'title': 'Transmission',
-        'value': 'Diesel',
+        'value': vehicle.transmission ?? "",
       },
       {
         'title': 'Fuel Type',
-        'value': 'Petrol',
+        'value': vehicle.fuelType ?? "",
       },
       {
-        'title': 'Seating Capacity',
-        'value': '4',
+        'title': 'Engine Capacity',
+        'value': vehicle.engineCapacity ?? "",
       },
       {
-        'title': 'Max Speed',
-        'value': '300 km/h',
-      },
-    ];
-    final List<Map<String, dynamic>> additionalFeatures = [
-      {
-        'title': 'Air Conditioner',
-        'value': true,
+        'title': 'Chassis No',
+        'value': vehicle.chasisNo ?? "",
       },
       {
-        'title': 'Heater',
-        'value': false,
-      },
-      {
-        'title': 'Sun Roof',
-        'value': true,
-      },
-      {
-        'title': 'CD/DVD',
-        'value': false,
-      },
-      {
-        'title': 'Front Camera',
-        'value': false,
-      },
-      {
-        'title': 'Rear Camera',
-        'value': true,
+        'title': 'Engine No',
+        'value': vehicle.engineNo ?? "",
       },
     ];
     return Scaffold(
@@ -104,46 +114,33 @@ class VehicleDetailsView extends StatelessWidget {
       appBar: AppBar(
         leading: getIt<Utils>().popIcon(context),
         title: const Text('Details'),
-        actions: [
-          IconButton(
-            style: IconButton.styleFrom(
-              iconSize: 22,
-              backgroundColor: context.colorScheme.onPrimary,
-            ),
-            onPressed: () {},
-            icon: Icon(CupertinoIcons.heart),
-          ),
-          6.width,
-        ],
+        // actions: [
+        //   IconButton(
+        //     style: IconButton.styleFrom(
+        //       iconSize: 22,
+        //       backgroundColor: context.colorScheme.onPrimary,
+        //     ),
+        //     onPressed: () {},
+        //     icon: Icon(CupertinoIcons.heart),
+        //   ),
+        //   6.width,
+        // ],
       ),
       body: GradientBody(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // CarouselView(
-              //   itemSnapping: false,
-              //   backgroundColor: Colors.transparent,
-              //   shrinkExtent: 0,
-              //   padding: EdgeInsets.zero,
-              //   itemExtent: context.screenWidth,
-              //   children: List.generate(
-              //     6,
-              //     (index) => Padding(
-              //       padding: const EdgeInsets.all(12.0),
-              //       child: Image.asset(
-              //         Assets.imagesCarDummy2,
-              //         fit: BoxFit.cover,
-              //       ),
-              //     ),
-              //   ),
-              // ).space(height: context.screenHeight * 0.25),
               Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Image.asset(
-                  Assets.imagesCarDummy2,
-                  fit: BoxFit.cover,
-                ),
-              ).space(height: context.screenHeight * 0.25),
+                      padding: const EdgeInsets.all(12.0),
+                      child: vehicle.images?.firstOrNull != null
+                          ? Image.network(
+                              vehicle.images!.firstOrNull!,
+                              fit: BoxFit.cover,
+                            )
+                          : SizedBox())
+                  .space(
+                      height: context.screenHeight * 0.25,
+                      width: double.infinity),
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -168,48 +165,92 @@ class VehicleDetailsView extends StatelessWidget {
                           14.height,
                           Row(
                             spacing: context.screenWidth * 0.03,
-                            children: overViewItems
-                                .map(
-                                  (e) => Expanded(
-                                    child: Container(
-                                      height: 92,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: context.colorScheme.outline
-                                                .withOp(0.2)),
-                                        borderRadius: BorderRadius.circular(12),
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 92,
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: context.colorScheme.outline
+                                            .withOp(0.2)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                        Assets.iconsCar3,
+                                        height: 26,
+                                        width: 26,
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image.asset(
-                                            e['image'] as String,
-                                            height: 26,
-                                            width: 26,
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            e['title'] as String,
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color:
-                                                    context.colorScheme.outline,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            e['value'] as String,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400),
-                                          )
-                                        ],
+                                      Spacer(),
+                                      Text(
+                                        'Model',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: context.colorScheme.outline,
+                                            fontWeight: FontWeight.w400),
                                       ),
+                                      FutureBuilder<VehicleModelModel?>(
+                                          future: getIt<MasterDataRepository>()
+                                              .getVehicleModelModelById(
+                                                  vehicleModelId:
+                                                      vehicle.carModelId ?? ""),
+                                          builder: (context, snap) {
+                                            return Text(
+                                              snap.data?.modelName ?? "",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            );
+                                          }),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              ...overViewItems.map(
+                                (e) => Expanded(
+                                  child: Container(
+                                    height: 92,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: context.colorScheme.outline
+                                              .withOp(0.2)),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Image.asset(
+                                          e['image'] as String,
+                                          height: 26,
+                                          width: 26,
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          e['title'] as String,
+                                          style: TextStyle(
+                                              fontSize: 10,
+                                              color:
+                                                  context.colorScheme.outline,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Text(
+                                          e['value'] as String,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                )
-                                .toList(),
+                                ),
+                              ),
+                            ],
                           ),
                           20.height,
                           Text(
@@ -299,64 +340,90 @@ class VehicleDetailsView extends StatelessWidget {
                                 color: context.colorScheme.primary),
                           ),
                           12.height,
-                          Column(
-                            children: additionalFeatures
-                                .map((tile) => Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 16.0),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            (tile['value'] as bool)
-                                                ? Assets.iconsAvailable
-                                                : Assets.iconsNotAvailable,
-                                            height: 26,
-                                            width: 26,
+                          BlocBuilder<VehicleAllFeaturesBloc,
+                                  VehicleAllFeaturesState>(
+                              builder: (context, state) {
+                            if (state is VehicleAllFeaturesLoaded) {
+                              return Column(
+                                children: state.allFeatures
+                                    .map((tile) => Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 16.0),
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                (vehicle.features ?? [])
+                                                        .contains(
+                                                            tile.featureName)
+                                                    ? Assets.iconsAvailable
+                                                    : Assets.iconsNotAvailable,
+                                                height: 26,
+                                                width: 26,
+                                              ),
+                                              12.width,
+                                              Expanded(
+                                                  child: Text(
+                                                tile.featureName ?? "",
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              )),
+                                            ],
                                           ),
-                                          12.width,
-                                          Expanded(
-                                              child: Text(
-                                            tile['title'] as String,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          )),
-                                        ],
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
-                          Text(
-                            'Gallery',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: context.colorScheme.primary),
-                          ),
-                          12.height,
+                                        ))
+                                    .toList(),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          }),
+                          if (vehicle.images?.isNotEmpty ?? false) ...[
+                            Text(
+                              'Gallery',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: context.colorScheme.primary),
+                            ),
+                            12.height,
+                          ]
                         ],
                       ),
                     ),
-                    CarouselView.weighted(
-                      itemSnapping: true,
-                      flexWeights: const <int>[1, 7, 1],
-                      controller: CarouselController(initialItem: 2),
-                      children: List.generate(
-                        5,
-                        (index) => ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: OverflowBox(
-                            maxWidth: context.screenWidth * 7 / 8,
-                            minWidth: context.screenWidth * 7 / 8,
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: AssetImage(Assets.imagesCarDummy),
+                    if (vehicle.images?.isNotEmpty ?? false)
+                      CarouselView.weighted(
+                        itemSnapping: true,
+                        flexWeights: const <int>[1, 7, 1],
+                        controller: CarouselController(initialItem: 2),
+                        children: List.generate(
+                          vehicle.images?.length ?? 0,
+                          (index) => ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: OverflowBox(
+                              maxWidth: context.screenWidth * 7 / 8,
+                              minWidth: context.screenWidth * 7 / 8,
+                              child: Image(
+                                fit: BoxFit.cover,
+                                image:
+                                    NetworkImage((vehicle.images ?? [])[index]),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ).space(height: context.screenHeight * 0.25),
+                      ).space(height: context.screenHeight * 0.25),
+                    30.height,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: CustomElevatedButton(
+                          onPressed: () {
+                            getIt<NavigationHelper>().push(
+                                context,
+                                VehicleBookingRequestView(
+                                  vehicle: vehicle,
+                                ));
+                          },
+                          text: 'Continue Booking'),
+                    ),
                     20.height,
                   ],
                 ),

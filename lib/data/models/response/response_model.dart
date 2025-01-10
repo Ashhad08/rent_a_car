@@ -10,33 +10,13 @@ class ResponseModel<T> {
   });
 
   factory ResponseModel.fromJson(
-      Map<String, dynamic> json, Function(Map<String, dynamic>) fromJsonModel) {
-    final data = _parseData<T>(json["data"], fromJsonModel);
+    Map<String, dynamic> json,
+    Function(dynamic) fromJsonModel,
+  ) {
     return ResponseModel(
-      status: json["status"],
-      message: json["message"],
-      data: data,
+      status: json['status'],
+      message: json['message'],
+      data: json['data'] != null ? fromJsonModel(json['data']) as T : null,
     );
-  }
-
-  static T? _parseData<T>(
-      dynamic data, Function(Map<String, dynamic>) fromJsonModel) {
-    if (data == null) return null;
-
-    if (T == List) {
-      return List.from(
-              data.map((e) => e is Map<String, dynamic> ? fromJsonModel(e) : e))
-          as T;
-    }
-
-    if (data is Map<String, dynamic>) {
-      return fromJsonModel(data);
-    }
-
-    if (T == String || T == num || T == bool) {
-      return data as T;
-    }
-
-    return null; // Return null if type is not supported
   }
 }

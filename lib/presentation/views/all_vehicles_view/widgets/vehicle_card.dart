@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
 import '../../../../constants/extensions.dart';
-import '../../../../generated/assets.dart';
+import '../../../../data/models/master_data/vehicle_model_model.dart';
+import '../../../../data/models/vehicle/vehicle_model.dart';
+import '../../../../domain/implementations/master_data/master_data_repository.dart';
 import '../../../../navigation/navigation_helper.dart';
 import '../../vehicle_details_view/vehicle_details_view.dart';
 
 class VehicleCard extends StatelessWidget {
-  const VehicleCard({super.key});
+  final VehicleModel vehicle;
+
+  const VehicleCard({super.key, required this.vehicle});
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<VehicleAllTypesBloc>().state;
+    String vehicleType = '';
+    if (state is VehicleAllTypesLoaded) {
+      vehicleType = state.allTypes
+              .where(
+                (element) => element.id == vehicle.carTypeId,
+              )
+              .firstOrNull
+              ?.typeName ??
+          "";
+    }
     final vehicleDetails = [
-      {'label': 'Suzuki', 'value': 'Altas 2024'},
-      {'label': 'Color', 'value': 'Black'},
-      {'label': 'City', 'value': 'Lahore'},
-      {'label': 'Rate', 'value': 'Rs.1000/day'},
+      {'label': 'Color', 'value': vehicle.color ?? ""},
+      {'label': 'City', 'value': vehicle.regCity ?? ""},
+      {'label': 'Rate', 'value': 'Rs.${vehicle.rateWithoutDriver ?? ""}'},
     ];
 
     return Stack(
@@ -43,30 +59,45 @@ class VehicleCard extends StatelessWidget {
                   flex: 4,
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: AssetImage(Assets.imagesCarDummy),
-                            fit: BoxFit.cover)),
+                      borderRadius: BorderRadius.circular(10),
+                      image: vehicle.images?.firstOrNull != null
+                          ? DecorationImage(
+                              image: NetworkImage(vehicle.images!.firstOrNull!),
+                              fit: BoxFit.cover)
+                          : null,
+                    ),
                   ),
                 ),
                 8.width,
                 Expanded(
                   flex: 6,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      vehicleDetails.length,
-                      (index) {
-                        final detail = vehicleDetails[index];
-                        return _buildDetailRow(
-                          detail['label']!,
-                          detail['value']!,
-                          isLast: index == vehicleDetails.length - 1,
-                        );
-                      },
-                    ),
-                  ),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FutureBuilder<VehicleModelModel?>(
+                            future: getIt<MasterDataRepository>()
+                                .getVehicleModelModelById(
+                                    vehicleModelId: vehicle.carModelId ?? ""),
+                            builder: (context, snap) {
+                              return _buildDetailRow(
+                                vehicleType,
+                                '${snap.data?.modelName ?? ""} ${vehicle.yearOfModel ?? ""}',
+                                isLast: false,
+                              );
+                            }),
+                        ...List.generate(
+                          vehicleDetails.length,
+                          (index) {
+                            final detail = vehicleDetails[index];
+                            return _buildDetailRow(
+                              detail['label']!,
+                              detail['value']!,
+                              isLast: index == vehicleDetails.length - 1,
+                            );
+                          },
+                        ),
+                      ]),
                 ),
               ],
             ),
@@ -77,7 +108,11 @@ class VehicleCard extends StatelessWidget {
           right: 0,
           child: ElevatedButton(
             onPressed: () {
-              getIt<NavigationHelper>().push(context, VehicleDetailsView());
+              getIt<NavigationHelper>().push(
+                  context,
+                  VehicleDetailsView(
+                    vehicle: vehicle,
+                  ));
             },
             style: ElevatedButton.styleFrom(
                 foregroundColor: context.colorScheme.onPrimary,

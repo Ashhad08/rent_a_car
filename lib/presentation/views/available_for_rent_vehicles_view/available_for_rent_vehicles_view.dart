@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/vehicle/available_for_rent_vehicles_bloc/available_for_rent_vehicles_bloc.dart';
 import '../../../constants/extensions.dart';
 import '../../../utils/utils.dart';
 import '../../elements/app_text_field.dart';
@@ -35,16 +37,40 @@ class AvailableForRentVehiclesView extends StatelessWidget {
               ),
               10.height,
               Expanded(
-                child: ListView.separated(
-                  padding: EdgeInsets.only(bottom: 20),
-                  separatorBuilder: (context, index) => 14.height,
-                  itemCount: 10,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => VehicleCard2(
-                      status: index % 2 == 0 ? 'Available' : "Assigned",
-                      statusIcon: CircleAvatar(
-                          radius: 5, backgroundColor: Color(0xff06A623)),
-                      statusColor: Color(0xff06A623)),
+                child: BlocBuilder<AvailableForRentVehiclesBloc,
+                    AvailableForRentVehiclesState>(
+                  builder: (context, state) {
+                    if (state is AvailableForRentVehiclesLoaded) {
+                      return RefreshIndicator.adaptive(
+                        onRefresh: () async =>
+                            context.read<AvailableForRentVehiclesBloc>().add(
+                                  LoadAvailableForRentVehiclesEvent(),
+                                ),
+                        child: ListView.separated(
+                          padding: EdgeInsets.only(bottom: 20),
+                          separatorBuilder: (context, index) => 14.height,
+                          itemCount: state.vehicles.length,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => VehicleCard2(
+                              status: 'Available',
+                              vehicle: state.vehicles[index],
+                              statusIcon: CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: Color(0xff06A623)),
+                              statusColor: Color(0xff06A623)),
+                        ),
+                      );
+                    }
+                    if (state is AvailableForRentVehiclesError) {
+                      return Center(
+                        child: Text(state.error),
+                      );
+                    }
+
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  },
                 ),
               ),
             ],

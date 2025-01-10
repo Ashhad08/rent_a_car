@@ -24,6 +24,7 @@ class AppTextField extends StatelessWidget {
     this.focusNode,
     this.onFieldSubmitted,
     this.textInputAction,
+    this.onTap,
   });
 
   final TextEditingController controller;
@@ -41,6 +42,7 @@ class AppTextField extends StatelessWidget {
   final Widget? suffix;
   final TextInputAction? textInputAction;
   final bool isDense;
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class AppTextField extends StatelessWidget {
       child: BlocBuilder<AppTextFieldBloc, AppTextFieldState>(
         builder: (context, state) {
           return TextFormField(
+            onTap: onTap,
             focusNode: focusNode,
             maxLines: maxLines ?? 1,
             validator: validator,
