@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../utils/utils.dart';
 import '../../elements/gradient_body.dart';
@@ -35,14 +36,14 @@ class DayBookView extends StatelessWidget {
                       onPressed: () {},
                       style: OutlinedButton.styleFrom(
                           backgroundColor: index == 0
-                              ? context.colorScheme.primary
-                              : context.colorScheme.onPrimary,
+                              ? getIt<AppColors>().kPrimaryColor
+                              : context.colorScheme.surface,
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           side: BorderSide(
                               color: index == 0
                                   ? Colors.transparent
-                                  : context.colorScheme.outline.withOp(0.7)),
+                                  : getIt<AppColors>().kPrimaryColor),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24))),
                       child: Text(
@@ -50,9 +51,8 @@ class DayBookView extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 12,
                             color: index == 0
-                                ? context.colorScheme.onPrimary
-                                : context.colorScheme.onPrimaryContainer
-                                    .withOp(0.6),
+                                ? context.colorScheme.secondary
+                                : getIt<AppColors>().kPrimaryColor,
                             fontWeight:
                                 index == 0 ? FontWeight.w500 : FontWeight.w400),
                       ),
@@ -74,8 +74,7 @@ class DayBookView extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
-                                color: context.colorScheme.onSecondaryContainer
-                                    .withOp(0.6),
+                                color: context.colorScheme.onPrimary,
                               ),
                             ),
                             9.height,
@@ -90,9 +89,7 @@ class DayBookView extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w400,
-                                        color: context
-                                            .colorScheme.onSecondaryContainer
-                                            .withOp(0.6),
+                                        color: context.colorScheme.onPrimary,
                                       ),
                                     ),
                                   ),
@@ -101,6 +98,7 @@ class DayBookView extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
+                                      color: context.colorScheme.onPrimary,
                                     ),
                                   ),
                                 ],

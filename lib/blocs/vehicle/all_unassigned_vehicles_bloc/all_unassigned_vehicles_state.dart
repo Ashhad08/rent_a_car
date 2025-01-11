@@ -14,7 +14,8 @@ final class AllUnassignedVehiclesLoaded extends AllUnassignedVehiclesState {
 
   List<VehicleModel> get vehicles => _vehicles;
 
-  const AllUnassignedVehiclesLoaded({required List<VehicleModel> vehicles}) : _vehicles = vehicles;
+  const AllUnassignedVehiclesLoaded({required List<VehicleModel> vehicles})
+      : _vehicles = vehicles;
 
   @override
   List<Object> get props => [_vehicles];

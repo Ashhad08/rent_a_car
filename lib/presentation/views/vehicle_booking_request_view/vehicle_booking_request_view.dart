@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../blocs/customer/all_customers/all_customers_bloc.dart';
 import '../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/master_data/vehicle_model_model.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
@@ -90,9 +91,11 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
           "";
     }
     final vehicleDetails = [
+      {'label': 'Reg', 'value': widget.vehicle.regNo ?? ""},
       {'label': 'Color', 'value': widget.vehicle.color ?? ""},
       {'label': 'City', 'value': widget.vehicle.regCity ?? ""},
     ];
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -112,10 +115,9 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                        color: context.colorScheme.onPrimary,
+                        color: getIt<AppColors>().kCardColor,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            color: context.colorScheme.outline.withOp(0.5))),
+                        border: Border.all(color: context.colorScheme.outline)),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -157,20 +159,10 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                                   return _buildDetailRow(
                                     detail['label']!,
                                     detail['value']!,
-                                    isLast: false,
+                                    isLast: index == vehicleDetails.length - 1,
                                   );
                                 },
                               ),
-                              ValueListenableBuilder(
-                                  valueListenable: _isWithOutDriver,
-                                  builder: (context, isWithOutDriver, child) {
-                                    return _buildDetailRow(
-                                        'Rate',
-                                        isWithOutDriver
-                                            ? 'Rs.${widget.vehicle.rateWithoutDriver ?? ""}/without driver'
-                                            : 'Rs.${widget.vehicle.rateWithDriver ?? ""}/with driver',
-                                        isLast: true);
-                                  }),
                             ])),
                       ],
                     ),
@@ -181,7 +173,9 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                       Text(
                         'Booking With Driver',
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: context.colorScheme.onPrimary),
                       ),
                       Spacer(),
                       ValueListenableBuilder(
@@ -204,7 +198,7 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: context.colorScheme.onPrimaryContainer.withOp(0.6),
+                      color: context.colorScheme.onPrimary,
                     ),
                   ),
                   8.height,
@@ -215,7 +209,7 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                           Assets.iconsOwners,
                           height: 24,
                           width: 24,
-                          color: context.colorScheme.outline,
+                          color: context.colorScheme.onPrimary,
                         ),
                         label: 'Select Customer',
                         dropdownMenuEntries: (state is AllCustomersLoaded)
@@ -245,11 +239,9 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                           Text(
                             'Pickup Date',
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: context.colorScheme.onPrimaryContainer
-                                  .withOp(0.6),
-                            ),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: context.colorScheme.onPrimary),
                           ),
                           8.height,
                           AppTextField(
@@ -284,6 +276,7 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                                   Assets.iconsCalender2,
                                   height: 24,
                                   width: 24,
+                                  color: context.colorScheme.onPrimary,
                                 ),
                               ),
                               controller: _pickupDateController,
@@ -299,8 +292,7 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: context.colorScheme.onPrimaryContainer
-                                  .withOp(0.6),
+                              color: context.colorScheme.onPrimary,
                             ),
                           ),
                           8.height,
@@ -336,6 +328,7 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                                   Assets.iconsCalender2,
                                   height: 24,
                                   width: 24,
+                                  color: context.colorScheme.onPrimary,
                                 ),
                               ),
                               controller: _returnDateController,
@@ -350,7 +343,7 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: context.colorScheme.onPrimaryContainer.withOp(0.6),
+                      color: context.colorScheme.onPrimary,
                     ),
                   ),
                   8.height,
@@ -361,14 +354,16 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                           width: double.infinity,
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: context.colorScheme.onPrimary,
+                            color: context.colorScheme.secondary,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: context.colorScheme.outline.withOp(0.7),
+                              color: context.colorScheme.surface,
                             ),
                           ),
                           child: Text(
                             days < 0 ? '' : days.toString(),
+                            style:
+                                TextStyle(color: context.colorScheme.onPrimary),
                           ),
                         );
                       }),
@@ -378,7 +373,7 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: context.colorScheme.onPrimaryContainer.withOp(0.6),
+                      color: context.colorScheme.onPrimary,
                     ),
                   ),
                   8.height,
@@ -392,10 +387,10 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                         return Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: context.colorScheme.onPrimary,
+                            color: context.colorScheme.secondary,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: context.colorScheme.outline.withOp(0.7),
+                              color: context.colorScheme.surface,
                             ),
                           ),
                           child: Row(
@@ -407,12 +402,15 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
                                 style: _discount.value > 0
                                     ? TextStyle(
                                         decoration: TextDecoration.lineThrough,
-                                      )
-                                    : null,
+                                        color: context.colorScheme.onPrimary)
+                                    : TextStyle(
+                                        color: context.colorScheme.onPrimary),
                               ),
                               if (_discount.value > 0)
                                 Text(
                                   " ${_amountAfterDiscount.value} (${_discount.value}% discount applied)",
+                                  style: TextStyle(
+                                      color: context.colorScheme.onPrimary),
                                 ),
                             ],
                           ),
@@ -436,21 +434,10 @@ class _VehicleBookingRequestViewState extends State<VehicleBookingRequestView> {
   Widget _buildDetailRow(String label, String value, {bool isLast = false}) {
     return Padding(
       padding: EdgeInsets.only(bottom: isLast ? 0 : 6),
-      child: Text.rich(
-        TextSpan(
-          text: '$label :',
-          children: [
-            TextSpan(
-              text: '   $value',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff585858),
-              ),
-            ),
-          ],
-        ),
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+      child: Text(
+        '$label :  $value',
+        style: TextStyle(
+            fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../generated/assets.dart';
 import '../../../navigation/navigation_helper.dart';
@@ -42,18 +43,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       height: 83,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 8),
+                      color: Color(0xFF161C18),
                       width: double.infinity,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xFFF1F1F1),
-                            Color(0xFFF9FBFC),
-                          ],
-                          stops: [0.0288, 0.2078],
-                        ),
-                      ),
                       child: Row(
                         children: [
                           _buildNavItem(
@@ -86,14 +77,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       },
                       style: OutlinedButton.styleFrom(
                           fixedSize: Size(64, 64),
-                          backgroundColor: Color(0xffF9FBFC),
                           padding: EdgeInsets.zero,
-                          side: BorderSide(color: Color(0xffF2F5F6), width: 6)),
+                          side: BorderSide(color: Color(0xff151B17), width: 6)),
                       child: Image.asset(
                         Assets.iconsReturnVehicle,
                         height: 44,
                         width: 44,
-                        color: context.colorScheme.primary,
+                        color: getIt<AppColors>().kPrimaryColor,
                       ),
                     ).space(height: 78, width: 78),
                   )
@@ -127,8 +117,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               height: 24,
               width: 24,
               color: isSelected
-                  ? context.colorScheme.primary
-                  : context.colorScheme.outline,
+                  ? getIt<AppColors>().kPrimaryColor
+                  : context.colorScheme.onPrimary,
             ),
             4.height,
             Text(
@@ -138,14 +128,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 fontWeight: FontWeight.w500,
                 color: isSelected
                     ? context.colorScheme.primary
-                    : context.colorScheme.outline,
+                    : context.colorScheme.onPrimary,
               ),
             ),
             if (isSelected)
               Image.asset(
                 Assets.iconsBottomBarShadow,
                 height: 19,
-                color: context.colorScheme.primary,
+                color: getIt<AppColors>().kPrimaryColor,
                 width: double.infinity,
               )
           ],

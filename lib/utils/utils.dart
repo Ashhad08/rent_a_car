@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
 import '../constants/extensions.dart';
 import '../navigation/navigation_helper.dart';
 
@@ -9,7 +10,7 @@ class Utils {
   IconButton popIcon(BuildContext context) => IconButton(
         style: IconButton.styleFrom(
           iconSize: 22,
-          backgroundColor: context.colorScheme.onPrimary,
+          backgroundColor: Color(0xff1A211D),
         ),
         onPressed: () {
           getIt<NavigationHelper>().pop(context);
@@ -24,7 +25,7 @@ class Utils {
     return Flushbar(
       flushbarPosition: FlushbarPosition.TOP,
       flushbarStyle: FlushbarStyle.FLOATING,
-      backgroundColor: CupertinoColors.systemGreen,
+      backgroundColor: getIt<AppColors>().kPrimaryColor,
       message: message,
       messageColor: context.colorScheme.onPrimary,
       messageSize: 14,

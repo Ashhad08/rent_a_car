@@ -4,7 +4,8 @@ sealed class AvailableForRentVehiclesEvent extends Equatable {
   const AvailableForRentVehiclesEvent();
 }
 
-final class LoadAvailableForRentVehiclesEvent extends AvailableForRentVehiclesEvent {
+final class LoadAvailableForRentVehiclesEvent
+    extends AvailableForRentVehiclesEvent {
   @override
   List<Object> get props => [];
 }

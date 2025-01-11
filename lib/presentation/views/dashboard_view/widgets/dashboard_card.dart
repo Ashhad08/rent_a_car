@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../constants/app_colors.dart';
 import '../../../../constants/extensions.dart';
 import '../../../../navigation/navigation_helper.dart';
 
@@ -24,7 +25,7 @@ class DashboardCard extends StatelessWidget {
           clipper: CustomClipperForInwardBottomRight(),
           child: Container(
             padding: EdgeInsets.all(14),
-            color: context.colorScheme.primary,
+            color: getIt<AppColors>().kCardColor,
             height: 130,
             width: double.infinity,
             child: Column(
@@ -55,11 +56,11 @@ class DashboardCard extends StatelessWidget {
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
                     decoration: BoxDecoration(
-                        color: context.colorScheme.onPrimary,
+                        color: context.colorScheme.surface,
                         borderRadius: BorderRadius.circular(100)),
                     child: ImageIcon(
                       AssetImage(icon),
-                      color: context.colorScheme.primary,
+                      color: getIt<AppColors>().kPrimaryColor,
                       size: 27,
                     ))
               ],
@@ -74,14 +75,14 @@ class DashboardCard extends StatelessWidget {
               getIt<NavigationHelper>().push(context, nextScreen);
             },
             style: ElevatedButton.styleFrom(
-                foregroundColor: context.colorScheme.onPrimary,
-                backgroundColor: context.colorScheme.primary,
+                foregroundColor: context.colorScheme.onSecondary,
+                backgroundColor: getIt<AppColors>().kPrimaryColor,
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100))),
             child: Icon(
               Icons.arrow_forward,
-              color: context.colorScheme.onPrimary,
+              color: context.colorScheme.onSecondary,
               size: 26,
             ),
           ).space(height: 50, width: 50),

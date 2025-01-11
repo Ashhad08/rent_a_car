@@ -52,8 +52,7 @@ class PromotionRepository extends BasePromotionRepository {
   }
 
   @override
-  Future<ResponseModel> updatePromotion(
-      PromotionInfo promo) async {
+  Future<ResponseModel> updatePromotion(PromotionInfo promo) async {
     try {
       final res = await super.networkRepository.post(
             uri: super.backendConfigs.buildUri(

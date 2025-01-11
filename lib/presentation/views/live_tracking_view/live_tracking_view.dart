@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../generated/assets.dart';
 import '../../../utils/utils.dart';
@@ -28,9 +29,8 @@ class LiveTrackingView extends StatelessWidget {
             height: 200,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 34),
             decoration: BoxDecoration(
-                color: context.colorScheme.onPrimary,
-                border:
-                    Border.all(color: context.colorScheme.outline.withOp(.5)),
+                color: getIt<AppColors>().kCardColor,
+                border: Border.all(color: context.colorScheme.outline),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
             child: Column(
               children: [
@@ -40,7 +40,7 @@ class LiveTrackingView extends StatelessWidget {
                       Assets.iconsSpeed,
                       height: 16,
                       width: 16,
-                      color: context.colorScheme.onPrimaryContainer.withOp(0.5),
+                      color: context.colorScheme.onPrimary,
                     ),
                     6.width,
                     Text(
@@ -48,8 +48,7 @@ class LiveTrackingView extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: context.colorScheme.onPrimaryContainer
-                              .withOp(0.5)),
+                          color: context.colorScheme.onPrimary),
                     ),
                     10.width,
                     Expanded(
@@ -57,9 +56,9 @@ class LiveTrackingView extends StatelessWidget {
                         '80 km /hours',
                         textAlign: TextAlign.end,
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: context.colorScheme.onPrimary),
                       ),
                     )
                   ],
@@ -70,7 +69,7 @@ class LiveTrackingView extends StatelessWidget {
                     Icon(
                       Icons.location_on,
                       size: 16,
-                      color: context.colorScheme.onPrimaryContainer.withOp(0.5),
+                      color: context.colorScheme.onPrimary,
                     ),
                     6.width,
                     Text(
@@ -78,8 +77,7 @@ class LiveTrackingView extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: context.colorScheme.onPrimaryContainer
-                              .withOp(0.5)),
+                          color: context.colorScheme.onPrimary),
                     ),
                     10.width,
                     Expanded(
@@ -87,9 +85,9 @@ class LiveTrackingView extends StatelessWidget {
                         'Islamabad',
                         textAlign: TextAlign.end,
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: context.colorScheme.onPrimary),
                       ),
                     )
                   ],
@@ -101,7 +99,7 @@ class LiveTrackingView extends StatelessWidget {
                       Assets.iconsCar,
                       height: 16,
                       width: 16,
-                      color: context.colorScheme.onPrimaryContainer.withOp(0.5),
+                      color: context.colorScheme.onPrimary,
                     ),
                     6.width,
                     Text(
@@ -109,8 +107,7 @@ class LiveTrackingView extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: context.colorScheme.onPrimaryContainer
-                              .withOp(0.5)),
+                          color: context.colorScheme.onPrimary),
                     ),
                     10.width,
                     Expanded(
@@ -118,9 +115,9 @@ class LiveTrackingView extends StatelessWidget {
                         'Reg: CA-678_XYZ',
                         textAlign: TextAlign.end,
                         style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: context.colorScheme.onPrimary),
                       ),
                     )
                   ],

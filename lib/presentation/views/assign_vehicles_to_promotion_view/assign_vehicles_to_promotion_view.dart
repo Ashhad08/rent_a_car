@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/vehicle/all_vehicles_bloc/all_vehicles_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
 import '../../../utils/utils.dart';
@@ -24,7 +25,8 @@ class AssignVehiclesToPromotionView extends StatefulWidget {
       _AssignVehiclesToPromotionViewState();
 }
 
-class _AssignVehiclesToPromotionViewState extends State<AssignVehiclesToPromotionView> {
+class _AssignVehiclesToPromotionViewState
+    extends State<AssignVehiclesToPromotionView> {
   late ValueNotifier<List<String>> _selectedVehicles;
 
   @override
@@ -114,7 +116,8 @@ class _AssignVehiclesToPromotionViewState extends State<AssignVehiclesToPromotio
                                     'Select All',
                                     style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w600),
+                                        fontWeight: FontWeight.w600,
+                                        color: context.colorScheme.onPrimary),
                                   )
                                 ],
                               );
@@ -140,7 +143,8 @@ class _AssignVehiclesToPromotionViewState extends State<AssignVehiclesToPromotio
     if (state is AllVehiclesError) {
       return Expanded(
         child: Center(
-          child: Text(state.error),
+          child: Text(state.error,
+              style: TextStyle(color: context.colorScheme.onPrimary)),
         ),
       );
     } else if (state is AllVehiclesLoaded) {
@@ -180,14 +184,15 @@ class _AssignVehiclesToPromotionViewState extends State<AssignVehiclesToPromotio
                     }),
                 Expanded(
                   child: VehicleCard2(
-                      status: _selectedVehicles.value
-                              .contains(allVehicles[index].id ?? "")
-                          ? 'Assigned'
-                          : "Available",
-                      vehicle: allVehicles[index],
-                      statusIcon: CircleAvatar(
-                          radius: 5, backgroundColor: Color(0xff06A623)),
-                      statusColor: Color(0xff06A623)),
+                    status: _selectedVehicles.value
+                            .contains(allVehicles[index].id ?? "")
+                        ? 'Assigned'
+                        : "Available",
+                    vehicle: allVehicles[index],
+                    statusIcon: CircleAvatar(
+                        radius: 5,
+                        backgroundColor: getIt<AppColors>().kPrimaryColor),
+                  ),
                 ),
               ],
             ),

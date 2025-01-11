@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/owner/owner_model.dart';
 import '../../../navigation/navigation_helper.dart';
@@ -54,23 +55,23 @@ class OwnerDetailsView extends StatelessWidget {
                           : NetworkImage(owner.ownerInfo!.ownerImage!),
                     ),
                     style: ListTileStyle.list,
-                    tileColor: context.colorScheme.onPrimary,
+                    tileColor: getIt<AppColors>().kCardColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
-                        side: BorderSide(
-                            color: context.colorScheme.outline.withOp(0.5))),
+                        side: BorderSide(color: context.colorScheme.outline)),
                     title: Text(
                       owner.ownerInfo?.ownerName ?? "",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: context.colorScheme.onPrimary),
                     ),
                     subtitle: Text(
                       owner.ownerInfo?.mobileNumber ?? "",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: context
-                              .theme.listTileTheme.subtitleTextStyle?.color),
+                          color: context.colorScheme.onPrimary),
                     ),
                   ),
                 ),
@@ -78,10 +79,9 @@ class OwnerDetailsView extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(top: 20, right: 20, left: 20),
                   decoration: BoxDecoration(
-                      color: context.colorScheme.onPrimary,
+                      color: getIt<AppColors>().kCardColor,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                          color: context.colorScheme.outline.withOp(0.8))),
+                      border: Border.all(color: context.colorScheme.outline)),
                   child: Column(
                     children: ownersInfo
                         .map(
@@ -94,9 +94,7 @@ class OwnerDetailsView extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
-                                    color: context
-                                        .colorScheme.onPrimaryContainer
-                                        .withOp(0.7),
+                                    color: context.colorScheme.onPrimary,
                                   ),
                                 ),
                                 Expanded(
@@ -106,6 +104,7 @@ class OwnerDetailsView extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
+                                      color: context.colorScheme.onPrimary,
                                     ),
                                   ),
                                 )
@@ -122,10 +121,10 @@ class OwnerDetailsView extends StatelessWidget {
                     Text(
                       '${(owner.vehicles ?? [].length) == 0 ? "No" : (owner.vehicles ?? []).length} ${(owner.vehicles ?? []).length == 1 ? "Vehicle" : 'Vehicles'} Assigned',
                       style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: context.colorScheme.onPrimaryContainer
-                              .withOp(0.7)),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: context.colorScheme.onPrimary,
+                      ),
                     ),
                     Spacer(),
                     IconButton(
@@ -133,8 +132,8 @@ class OwnerDetailsView extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         fixedSize: Size(24, 24),
                         iconSize: 20,
-                        backgroundColor: context.colorScheme.secondary,
-                        foregroundColor: context.colorScheme.onPrimary,
+                        backgroundColor: getIt<AppColors>().kPrimaryColor,
+                        foregroundColor: context.colorScheme.secondary,
                       ),
                       onPressed: () {
                         getIt<NavigationHelper>().push(
@@ -155,7 +154,6 @@ class OwnerDetailsView extends StatelessWidget {
                     child: VehicleCard2(
                       status: 'Assigned',
                       vehicle: e,
-                      statusColor: Color(0xff004ABA),
                     ),
                   ),
                 ),

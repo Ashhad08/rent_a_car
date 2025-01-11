@@ -5,6 +5,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 
 import '../../../blocs/loading_bloc/loading_bloc.dart';
 import '../../../blocs/promotion/all_promotions_bloc/all_promotions_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/promotion/promotion_model.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
@@ -77,10 +78,7 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
       child: Builder(builder: (context) {
         return LoadingOverlay(
           isLoading: context.select((LoadingBloc bloc) => bloc.state.isLoading),
-          color: context.colorScheme.primary.withOp(0.2),
-          progressIndicator: CircularProgressIndicator.adaptive(
-            backgroundColor: context.colorScheme.onPrimary,
-          ),
+          progressIndicator: CircularProgressIndicator.adaptive(),
           child: Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
@@ -99,11 +97,9 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                         Text(
                           'Promotion title',
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: context.colorScheme.onPrimaryContainer
-                                .withOp(0.6),
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onPrimary),
                         ),
                         8.height,
                         AppTextField(
@@ -119,11 +115,9 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                         Text(
                           'Discount Percentage',
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: context.colorScheme.onPrimaryContainer
-                                .withOp(0.6),
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onPrimary),
                         ),
                         8.height,
                         AppTextField(
@@ -143,11 +137,9 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                         Text(
                           'Vehicle Select',
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: context.colorScheme.onPrimaryContainer
-                                .withOp(0.6),
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onPrimary),
                         ),
                         8.height,
                         InkWell(
@@ -165,20 +157,17 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color:
-                                      context.colorScheme.outline.withOp(0.7),
-                                )),
+                                    color: context.colorScheme.outline)),
                             padding: EdgeInsets.all(12),
                             child: Row(
                               children: [
                                 Text(
                                   'Select Vehicles',
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: context
-                                          .colorScheme.onSecondaryContainer
-                                          .withOp(0.8)),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: context.colorScheme.onPrimary,
+                                  ),
                                 ),
                                 Spacer(),
                                 Icon(Icons.adaptive.arrow_forward)
@@ -196,13 +185,12 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                                         (e) => Container(
                                           decoration: BoxDecoration(
                                               color:
-                                                  context.colorScheme.onPrimary,
+                                                  getIt<AppColors>().kCardColor,
                                               borderRadius:
                                                   BorderRadius.circular(12),
                                               border: Border.all(
-                                                color: context
-                                                    .colorScheme.outline
-                                                    .withOp(0.7),
+                                                color:
+                                                    context.colorScheme.outline,
                                               )),
                                           padding: EdgeInsets.all(14),
                                           child: Row(
@@ -212,20 +200,17 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                                                 style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w400,
-                                                    color: context.colorScheme
-                                                        .onSecondaryContainer
-                                                        .withOp(0.8)),
+                                                    color: context
+                                                        .colorScheme.onPrimary),
                                               ),
                                               Spacer(),
-                                              Text(
-                                                'Reg: ${e.regNo ?? ""}',
-                                                style: TextStyle(
+                                              Text('Reg: ${e.regNo ?? ""}',
+                                                  style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w400,
                                                     color: context
-                                                        .colorScheme.primary
-                                                        .withOp(0.8)),
-                                              ),
+                                                        .colorScheme.onPrimary,
+                                                  )),
                                             ],
                                           ),
                                         ),
@@ -243,12 +228,9 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                                 Text(
                                   'Start Date',
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: context
-                                        .colorScheme.onPrimaryContainer
-                                        .withOp(0.6),
-                                  ),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: context.colorScheme.onPrimary),
                                 ),
                                 8.height,
                                 AppTextField(
@@ -280,11 +262,10 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                                     },
                                     suffix: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        Assets.iconsCalender2,
-                                        height: 24,
-                                        width: 24,
-                                      ),
+                                      child: Image.asset(Assets.iconsCalender2,
+                                          height: 24,
+                                          width: 24,
+                                          color: context.colorScheme.onPrimary),
                                     ),
                                     controller: _startDateController,
                                     hintText: 'MMM d yyyy'),
@@ -297,12 +278,9 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                                 Text(
                                   'End Date',
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: context
-                                        .colorScheme.onPrimaryContainer
-                                        .withOp(0.6),
-                                  ),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: context.colorScheme.onPrimary),
                                 ),
                                 8.height,
                                 AppTextField(
@@ -334,11 +312,10 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                                     },
                                     suffix: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
-                                        Assets.iconsCalender2,
-                                        height: 24,
-                                        width: 24,
-                                      ),
+                                      child: Image.asset(Assets.iconsCalender2,
+                                          height: 24,
+                                          width: 24,
+                                          color: context.colorScheme.onPrimary),
                                     ),
                                     controller: _endDateController,
                                     hintText: 'MMM d yyyy'),
@@ -350,11 +327,9 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                         Text(
                           'Description',
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: context.colorScheme.onPrimaryContainer
-                                .withOp(0.6),
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onPrimary),
                         ),
                         8.height,
                         AppTextField(
@@ -370,10 +345,10 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                         16.height,
                         Container(
                           decoration: BoxDecoration(
-                              color: context.colorScheme.onPrimary,
+                              color: getIt<AppColors>().kCardColor,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: context.colorScheme.outline.withOp(0.7),
+                                color: context.colorScheme.outline,
                               )),
                           child: Row(
                             children: [
@@ -383,9 +358,7 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: context
-                                        .colorScheme.onSecondaryContainer
-                                        .withOp(0.8)),
+                                    color: context.colorScheme.onPrimary),
                               ),
                               Spacer(),
                               ValueListenableBuilder(

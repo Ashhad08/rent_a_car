@@ -4,6 +4,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 
 import '../../../blocs/loading_bloc/loading_bloc.dart';
 import '../../../blocs/master_data/all_fuel_types_bloc/all_fuel_types_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../domain/implementations/vehicle/vehicle_repository.dart';
 import '../../../navigation/navigation_helper.dart';
@@ -32,10 +33,7 @@ class _AddFuelRatesState extends State<AddFuelRates> {
       child: Builder(builder: (context) {
         return LoadingOverlay(
           isLoading: context.select((LoadingBloc bloc) => bloc.state.isLoading),
-          color: context.colorScheme.primary.withOp(0.2),
-          progressIndicator: CircularProgressIndicator.adaptive(
-            backgroundColor: context.colorScheme.onPrimary,
-          ),
+          progressIndicator: CircularProgressIndicator.adaptive(),
           child: Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
@@ -47,7 +45,8 @@ class _AddFuelRatesState extends State<AddFuelRates> {
                 if (state is AllFuelTypesError) {
                   return GradientBody(
                       child: Center(
-                    child: Text(state.error),
+                    child: Text(state.error,
+                        style: TextStyle(color: context.colorScheme.onPrimary)),
                   ));
                 } else if (state is AllFuelTypesLoaded) {
                   final fuelTypes = state.fuelTypes;
@@ -69,12 +68,10 @@ class _AddFuelRatesState extends State<AddFuelRates> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 20),
                                   decoration: BoxDecoration(
-                                    color: context.colorScheme.onPrimary,
+                                    color: getIt<AppColors>().kCardColor,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: context.colorScheme.outline
-                                          .withOp(0.7),
-                                    ),
+                                        color: context.colorScheme.outline),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
@@ -85,9 +82,8 @@ class _AddFuelRatesState extends State<AddFuelRates> {
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
-                                            color: context
-                                                .colorScheme.onPrimaryContainer
-                                                .withOp(0.7)),
+                                            color:
+                                                context.colorScheme.onPrimary),
                                       ),
                                       8.height,
                                       CustomDropDown(
@@ -185,19 +181,18 @@ class _AddFuelRatesState extends State<AddFuelRates> {
                                   'Current Rates',
                                   style: TextStyle(
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w600),
+                                      fontWeight: FontWeight.w600,
+                                      color: context.colorScheme.onPrimary),
                                 ),
                                 12.height,
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 17),
                                   decoration: BoxDecoration(
-                                    color: context.colorScheme.onPrimary,
+                                    color: getIt<AppColors>().kCardColor,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: context.colorScheme.outline
-                                          .withOp(0.7),
-                                    ),
+                                        color: context.colorScheme.outline),
                                   ),
                                   child: Column(
                                     spacing: 20,
@@ -213,17 +208,17 @@ class _AddFuelRatesState extends State<AddFuelRates> {
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       color: context.colorScheme
-                                                          .onPrimaryContainer
-                                                          .withOp(0.5)),
+                                                          .onPrimary),
                                                 ),
                                               ),
                                               10.width,
                                               Text(
                                                 (e.fuelRate ?? 0).toString(),
                                                 style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: context
+                                                        .colorScheme.onPrimary),
                                               )
                                             ],
                                           ),

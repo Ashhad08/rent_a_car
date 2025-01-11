@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/vehicle/available_for_rent_vehicles_bloc/available_for_rent_vehicles_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../utils/utils.dart';
 import '../../elements/app_text_field.dart';
@@ -52,18 +53,21 @@ class AvailableForRentVehiclesView extends StatelessWidget {
                           itemCount: state.vehicles.length,
                           physics: AlwaysScrollableScrollPhysics(),
                           itemBuilder: (context, index) => VehicleCard2(
-                              status: 'Available',
-                              vehicle: state.vehicles[index],
-                              statusIcon: CircleAvatar(
-                                  radius: 5,
-                                  backgroundColor: Color(0xff06A623)),
-                              statusColor: Color(0xff06A623)),
+                            status: 'Available',
+                            vehicle: state.vehicles[index],
+                            statusIcon: CircleAvatar(
+                                radius: 5,
+                                backgroundColor:
+                                    getIt<AppColors>().kPrimaryColor),
+                          ),
                         ),
                       );
                     }
                     if (state is AvailableForRentVehiclesError) {
                       return Center(
-                        child: Text(state.error),
+                        child: Text(state.error,
+                            style: TextStyle(
+                                color: context.colorScheme.onPrimary)),
                       );
                     }
 

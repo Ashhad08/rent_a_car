@@ -14,7 +14,8 @@ final class AllVehiclesLoaded extends AllVehiclesState {
 
   List<VehicleModel> get vehicles => _vehicles;
 
-  const AllVehiclesLoaded({required List<VehicleModel> vehicles}) : _vehicles = vehicles;
+  const AllVehiclesLoaded({required List<VehicleModel> vehicles})
+      : _vehicles = vehicles;
 
   @override
   List<Object> get props => [_vehicles];

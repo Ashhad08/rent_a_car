@@ -13,10 +13,10 @@ class GradientBody extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0xffDFE2E3),
-            Color(0xffF9FBFC),
+            Color(0xFF66826F),
+            Color(0xFF161C18),
           ],
-          stops: [0, 0.3],
+          stops: [0.0, 0.4],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),

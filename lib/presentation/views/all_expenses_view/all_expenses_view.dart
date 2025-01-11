@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../generated/assets.dart';
+import '../../../navigation/navigation_helper.dart';
 import '../../../utils/utils.dart';
 import '../../elements/gradient_body.dart';
+import '../add_expenses_view/add_expenses_view.dart';
 
-class ReceiptVoucherView extends StatelessWidget {
-  const ReceiptVoucherView({super.key});
+class AllExpensesView extends StatelessWidget {
+  const AllExpensesView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,23 @@ class ReceiptVoucherView extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: getIt<Utils>().popIcon(context),
-        title: const Text('Receipt Voucher'),
+        title: const Text('All Expenses'),
+        actions: [
+          IconButton(
+            style: IconButton.styleFrom(
+              padding: EdgeInsets.zero,
+              fixedSize: Size(24, 24),
+              iconSize: 22,
+              backgroundColor: getIt<AppColors>().kPrimaryColor,
+              foregroundColor: context.colorScheme.secondary,
+            ),
+            onPressed: () {
+              getIt<NavigationHelper>().push(context, AddExpensesView());
+            },
+            icon: Icon(Icons.add),
+          ).space(height: 32, width: 32),
+          20.width,
+        ],
       ),
       body: GradientBody(
         child: ListView.separated(
@@ -25,11 +44,9 @@ class ReceiptVoucherView extends StatelessWidget {
           itemBuilder: (context, index) => Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
             decoration: BoxDecoration(
-                color: context.colorScheme.onPrimary,
+                color: getIt<AppColors>().kCardColor,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: context.colorScheme.outline.withOp(0.7),
-                )),
+                border: Border.all(color: context.colorScheme.outline)),
             child: Column(
               children: [
                 Row(
@@ -43,25 +60,23 @@ class ReceiptVoucherView extends StatelessWidget {
                         Text(
                           'Petrol',
                           style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: context.colorScheme.onPrimary),
                         ),
                         Text(
                           'Refilled tank at shell station',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: context.colorScheme.onSecondaryContainer
-                                  .withOp(0.6)),
+                              color: context.colorScheme.onPrimary),
                         ),
                         Text(
                           'Dec 27, 2024',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: context.colorScheme.onSecondaryContainer
-                                  .withOp(0.8)),
+                              color: context.colorScheme.onPrimary),
                         )
                       ],
                     )),
@@ -71,21 +86,25 @@ class ReceiptVoucherView extends StatelessWidget {
                         IconButton.outlined(
                             onPressed: () {},
                             padding: EdgeInsets.zero,
+                            style: IconButton.styleFrom(
+                                side: BorderSide(
+                                    color: getIt<AppColors>().kPrimaryColor)),
                             icon: Image.asset(
                               Assets.iconsEdit2,
-                              color: context.colorScheme.onPrimaryContainer
-                                  .withOp(0.5),
+                              color: getIt<AppColors>().kPrimaryColor,
                               height: 18,
                               width: 18,
                             )).space(height: 30, width: 30),
                         12.height,
                         IconButton.outlined(
                             onPressed: () {},
+                            style: IconButton.styleFrom(
+                                side: BorderSide(
+                                    color: getIt<AppColors>().kPrimaryColor)),
                             padding: EdgeInsets.zero,
                             icon: Image.asset(
                               Assets.iconsDelete,
-                              color: context.colorScheme.onPrimaryContainer
-                                  .withOp(0.5),
+                              color: getIt<AppColors>().kPrimaryColor,
                               height: 18,
                               width: 18,
                             )).space(height: 30, width: 30),
@@ -97,11 +116,9 @@ class ReceiptVoucherView extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 18, vertical: 7),
                   decoration: BoxDecoration(
-                    color: context.colorScheme.onPrimary,
+                    color: context.colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: context.colorScheme.outline.withOp(0.6),
-                    ),
+                    border: Border.all(color: context.colorScheme.outline),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,17 +126,18 @@ class ReceiptVoucherView extends StatelessWidget {
                       Text(
                         'Amount',
                         style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: context.colorScheme.onSecondaryContainer
-                                .withOp(0.8)),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: getIt<AppColors>().kPrimaryColor,
+                        ),
                       ),
                       Text(
                         2000.toString(),
                         style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: context.colorScheme.primary),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: getIt<AppColors>().kPrimaryColor,
+                        ),
                       )
                     ],
                   ),

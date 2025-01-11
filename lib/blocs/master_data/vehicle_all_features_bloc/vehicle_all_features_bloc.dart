@@ -5,7 +5,6 @@ import '../../../data/models/master_data/vehicle_feature_model.dart';
 import '../../../domain/implementations/master_data/master_data_repository.dart';
 
 part 'vehicle_all_features_event.dart';
-
 part 'vehicle_all_features_state.dart';
 
 class VehicleAllFeaturesBloc

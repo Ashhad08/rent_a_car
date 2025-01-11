@@ -6,6 +6,7 @@ import 'package:loading_overlay/loading_overlay.dart';
 import '../../../blocs/loading_bloc/loading_bloc.dart';
 import '../../../blocs/owner/all_owners/all_owners_bloc.dart';
 import '../../../blocs/vehicle/all_unassigned_vehicles_bloc/all_unassigned_vehicles_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/owner/owner_model.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
@@ -62,10 +63,7 @@ class _AssignVehiclesToOwnerViewState extends State<AssignVehiclesToOwnerView> {
       child: Builder(builder: (context) {
         return LoadingOverlay(
           isLoading: context.select((LoadingBloc bloc) => bloc.state.isLoading),
-          color: context.colorScheme.primary.withOp(0.2),
-          progressIndicator: CircularProgressIndicator.adaptive(
-            backgroundColor: context.colorScheme.onPrimary,
-          ),
+          progressIndicator: CircularProgressIndicator.adaptive(),
           child: Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
@@ -160,7 +158,9 @@ class _AssignVehiclesToOwnerViewState extends State<AssignVehiclesToOwnerView> {
                                           'Select All',
                                           style: TextStyle(
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight: FontWeight.w600,
+                                              color: context
+                                                  .colorScheme.onPrimary),
                                         )
                                       ],
                                     );
@@ -189,7 +189,8 @@ class _AssignVehiclesToOwnerViewState extends State<AssignVehiclesToOwnerView> {
     if (state is AllUnassignedVehiclesError) {
       return Expanded(
         child: Center(
-          child: Text(state.error),
+          child: Text(state.error,
+              style: TextStyle(color: context.colorScheme.onPrimary)),
         ),
       );
     } else if (state is AllUnassignedVehiclesLoaded) {
@@ -229,14 +230,15 @@ class _AssignVehiclesToOwnerViewState extends State<AssignVehiclesToOwnerView> {
                     }),
                 Expanded(
                   child: VehicleCard2(
-                      status: _selectedVehicles.value
-                              .contains(allVehicles[index].id ?? "")
-                          ? 'Assigned'
-                          : "Available",
-                      vehicle: allVehicles[index],
-                      statusIcon: CircleAvatar(
-                          radius: 5, backgroundColor: Color(0xff06A623)),
-                      statusColor: Color(0xff06A623)),
+                    status: _selectedVehicles.value
+                            .contains(allVehicles[index].id ?? "")
+                        ? 'Assigned'
+                        : "Available",
+                    vehicle: allVehicles[index],
+                    statusIcon: CircleAvatar(
+                        radius: 5,
+                        backgroundColor: getIt<AppColors>().kPrimaryColor),
+                  ),
                 ),
               ],
             ),

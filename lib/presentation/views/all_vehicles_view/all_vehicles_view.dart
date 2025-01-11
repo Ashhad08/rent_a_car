@@ -58,7 +58,9 @@ class AllVehiclesView extends StatelessWidget {
                     }
                     if (state is AllVehiclesError) {
                       return Center(
-                        child: Text(state.error),
+                        child: Text(state.error,
+                            style: TextStyle(
+                                color: context.colorScheme.onPrimary)),
                       );
                     }
 

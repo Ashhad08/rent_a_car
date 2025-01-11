@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
 import '../../../blocs/promotion/all_promotions_bloc/all_promotions_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/promotion/promotion_model.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
@@ -49,8 +50,8 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
               padding: EdgeInsets.zero,
               fixedSize: Size(24, 24),
               iconSize: 22,
-              backgroundColor: context.colorScheme.secondary,
-              foregroundColor: context.colorScheme.onPrimary,
+              backgroundColor: getIt<AppColors>().kPrimaryColor,
+              foregroundColor: context.colorScheme.secondary,
             ),
             onPressed: () {
               getIt<NavigationHelper>()
@@ -82,15 +83,14 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                             },
                             style: OutlinedButton.styleFrom(
                                 backgroundColor: index == tabIndex
-                                    ? context.colorScheme.primary
-                                    : context.colorScheme.onPrimary,
+                                    ? getIt<AppColors>().kPrimaryColor
+                                    : context.colorScheme.surface,
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
                                 side: BorderSide(
                                     color: index == tabIndex
                                         ? Colors.transparent
-                                        : context.colorScheme.outline
-                                            .withOp(0.7)),
+                                        : getIt<AppColors>().kPrimaryColor),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(24))),
                             child: Text(
@@ -98,9 +98,8 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                               style: TextStyle(
                                   fontSize: 12,
                                   color: index == tabIndex
-                                      ? context.colorScheme.onPrimary
-                                      : context.colorScheme.onPrimaryContainer
-                                          .withOp(0.6),
+                                      ? context.colorScheme.surface
+                                      : getIt<AppColors>().kPrimaryColor,
                                   fontWeight: index == tabIndex
                                       ? FontWeight.w500
                                       : FontWeight.w400),
@@ -115,7 +114,8 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
               builder: (context, state) {
                 if (state is AllPromotionsError) {
                   return Center(
-                    child: Text(state.error),
+                    child: Text(state.error,
+                        style: TextStyle(color: context.colorScheme.onPrimary)),
                   );
                 } else if (state is AllPromotionsLoaded) {
                   final promos = state.promos;
@@ -171,10 +171,10 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 14, vertical: 18),
           decoration: BoxDecoration(
-            color: context.colorScheme.onPrimary,
+            color: getIt<AppColors>().kCardColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: context.colorScheme.outline.withOp(0.7),
+              color: context.colorScheme.outline,
             ),
           ),
           child: Column(
@@ -185,8 +185,10 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                   Expanded(
                     child: Text(
                       promo.promoTitle ?? "",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: context.colorScheme.onPrimary),
                     ),
                   ),
                   10.width,
@@ -195,7 +197,7 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: context.colorScheme.secondary),
+                        color: context.colorScheme.onPrimary),
                   ),
                 ],
               ),
@@ -210,8 +212,7 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color:
-                            context.colorScheme.onPrimaryContainer.withOp(0.5),
+                        color: context.colorScheme.onPrimary,
                       ),
                     );
                   }
@@ -224,7 +225,7 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
-                  color: context.colorScheme.onPrimaryContainer.withOp(0.5),
+                  color: context.colorScheme.onPrimary,
                 ),
               ),
               15.height,
@@ -232,6 +233,9 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton.outlined(
+                      style: IconButton.styleFrom(
+                          side: BorderSide(
+                              color: getIt<AppColors>().kPrimaryColor)),
                       onPressed: () {
                         getIt<NavigationHelper>().push(
                             context,
@@ -243,17 +247,24 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                       padding: EdgeInsets.zero,
                       icon: Image.asset(
                         Assets.iconsEdit2,
-                        color:
-                            context.colorScheme.onPrimaryContainer.withOp(0.5),
+                        color: getIt<AppColors>().kPrimaryColor,
                         height: 18,
                         width: 18,
                       )).space(height: 30, width: 30),
                   12.width,
                   IconButton.outlined(
+                      style: IconButton.styleFrom(
+                          side: BorderSide(
+                              color: getIt<AppColors>().kPrimaryColor)),
                       onPressed: () {
                         showDialog(
                           context: context,
                           builder: (c) => Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                                side: BorderSide(
+                                  color: getIt<AppColors>().kPrimaryColor,
+                                )),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 18, vertical: 27),
@@ -263,7 +274,7 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                                   Image.asset(
                                     Assets.iconsDelete,
                                     height: 34,
-                                    color: context.colorScheme.primary,
+                                    color: getIt<AppColors>().kPrimaryColor,
                                     width: 34,
                                   ),
                                   24.height,
@@ -271,9 +282,9 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                                     'Are you sure you want to delete this promotion?',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: context.colorScheme.onPrimary),
                                   ),
                                   24.height,
                                   Row(
@@ -284,13 +295,19 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                                           onPressed: () {
                                             Navigator.of(c).pop();
                                           },
+                                          style: OutlinedButton.styleFrom(
+                                              side: BorderSide(
+                                            color: getIt<AppColors>()
+                                                .kPrimaryColor,
+                                          )),
                                           child: Text(
                                             'Cancel',
                                             style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: context
-                                                    .colorScheme.secondary),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: getIt<AppColors>()
+                                                  .kPrimaryColor,
+                                            ),
                                           ),
                                         ).space(height: 48),
                                       ),
@@ -341,8 +358,7 @@ class _AllPromotionsViewState extends State<AllPromotionsView> {
                       padding: EdgeInsets.zero,
                       icon: Image.asset(
                         Assets.iconsDelete,
-                        color:
-                            context.colorScheme.onPrimaryContainer.withOp(0.5),
+                        color: getIt<AppColors>().kPrimaryColor,
                         height: 18,
                         width: 18,
                       )).space(height: 30, width: 30),

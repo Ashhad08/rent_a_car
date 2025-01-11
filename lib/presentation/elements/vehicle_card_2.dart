@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
+import '../../constants/app_colors.dart';
 import '../../constants/extensions.dart';
 import '../../data/models/master_data/vehicle_model_model.dart';
 import '../../data/models/vehicle/vehicle_model.dart';
@@ -14,7 +15,6 @@ class VehicleCard2 extends StatelessWidget {
   const VehicleCard2({
     super.key,
     required this.status,
-    required this.statusColor,
     this.statusIcon,
     this.showTrackLocationIcon = false,
     required this.vehicle,
@@ -22,7 +22,6 @@ class VehicleCard2 extends StatelessWidget {
   });
 
   final String status;
-  final Color statusColor;
   final Widget? statusIcon;
   final bool showTrackLocationIcon;
   final bool showReturnVehicleIcon;
@@ -41,8 +40,10 @@ class VehicleCard2 extends StatelessWidget {
               ?.typeName ??
           "";
     }
+
     final vehicleDetails = [
       {'label': 'Color', 'value': vehicle.color ?? ""},
+      {'label': 'Reg', 'value': vehicle.regNo ?? ""},
       {'label': 'City', 'value': vehicle.regCity ?? ""},
       {'label': 'Rate', 'value': 'Rs.${vehicle.rateWithoutDriver ?? ""}'},
     ];
@@ -50,9 +51,9 @@ class VehicleCard2 extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
-          color: context.colorScheme.onPrimary,
+          color: getIt<AppColors>().kCardColor,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: context.colorScheme.outline.withOp(0.5))),
+          border: Border.all(color: context.colorScheme.outline)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -109,11 +110,12 @@ class VehicleCard2 extends StatelessWidget {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                        color: statusColor.withOp(0.1),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: statusColor.withOp(0.3),
-                        )),
+                      borderRadius: BorderRadius.circular(10),
+                      color: context.colorScheme.surface,
+                      border: Border.all(
+                        color: getIt<AppColors>().kPrimaryColor,
+                      ),
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -124,7 +126,7 @@ class VehicleCard2 extends StatelessWidget {
                         Text(
                           status,
                           style: TextStyle(
-                              color: statusColor,
+                              color: getIt<AppColors>().kPrimaryColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w400),
                         ),
@@ -143,15 +145,16 @@ class VehicleCard2 extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                            color: statusColor.withOp(0.1),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: statusColor.withOp(0.3),
-                            )),
+                          borderRadius: BorderRadius.circular(10),
+                          color: context.colorScheme.surface,
+                          border: Border.all(
+                            color: getIt<AppColors>().kPrimaryColor,
+                          ),
+                        ),
                         child: Text(
                           'Live Tracking',
                           style: TextStyle(
-                              color: statusColor,
+                              color: getIt<AppColors>().kPrimaryColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w400),
                         ),
@@ -170,15 +173,16 @@ class VehicleCard2 extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                            color: statusColor.withOp(0.1),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: statusColor.withOp(0.3),
-                            )),
+                          borderRadius: BorderRadius.circular(10),
+                          color: context.colorScheme.surface,
+                          border: Border.all(
+                            color: getIt<AppColors>().kPrimaryColor,
+                          ),
+                        ),
                         child: Text(
                           'Return Vehicle',
                           style: TextStyle(
-                              color: statusColor,
+                              color: getIt<AppColors>().kPrimaryColor,
                               fontSize: 12,
                               fontWeight: FontWeight.w400),
                         ),
@@ -197,21 +201,10 @@ class VehicleCard2 extends StatelessWidget {
   Widget _buildDetailRow(String label, String value, {bool isLast = false}) {
     return Padding(
       padding: EdgeInsets.only(bottom: isLast ? 0 : 6),
-      child: Text.rich(
-        TextSpan(
-          text: '$label :',
-          children: [
-            TextSpan(
-              text: '   $value',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff585858),
-              ),
-            ),
-          ],
-        ),
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+      child: Text(
+        '$label :  $value',
+        style: TextStyle(
+            fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
       ),
     );
   }

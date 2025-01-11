@@ -30,6 +30,7 @@ class CustomDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final border = Color(0xff2B3523);
     final sortedEntries = dropdownMenuEntries.toSet().toList()
       ..sort((a, b) => a.value.compareTo(b.value));
 
@@ -39,6 +40,7 @@ class CustomDropDown extends StatelessWidget {
         child: Text(
           entry.value,
           overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: context.colorScheme.onPrimary),
         ),
       );
     }).toList();
@@ -63,13 +65,6 @@ class CustomDropDown extends StatelessWidget {
         ),
       ),
       decoration: InputDecoration(
-        enabled: enabled,
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: context.colorScheme.outline.withOp(0.1),
-          ),
-        ),
         isDense: isDense,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -80,13 +75,13 @@ class CustomDropDown extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: context.colorScheme.outline.withOp(0.3),
+            color: border,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: context.colorScheme.outline.withOp(0.3),
+            color: border,
           ),
         ),
         errorBorder: OutlineInputBorder(
@@ -96,14 +91,18 @@ class CustomDropDown extends StatelessWidget {
           ),
         ),
         filled: true,
-        prefixIconColor: context.colorScheme.outline.withOp(0.8),
-        fillColor: context.colorScheme.onPrimary,
+        prefixIconColor: context.colorScheme.onPrimary,
+        fillColor: context.colorScheme.secondary,
         prefixIcon: prefixIcon == null
             ? null
             : Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: prefixIcon,
               ),
+        hintStyle: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: context.colorScheme.onPrimary),
         suffixIcon: suffix,
       ),
       items: dropdownItems,
@@ -135,7 +134,7 @@ class CustomDropDown extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: context.colorScheme.onPrimary,
+          color: context.colorScheme.secondary,
         ),
       ),
       menuItemStyleData: const MenuItemStyleData(

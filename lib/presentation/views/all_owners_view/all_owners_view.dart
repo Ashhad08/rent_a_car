@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/owner/all_owners/all_owners_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../navigation/navigation_helper.dart';
 import '../../elements/app_text_field.dart';
@@ -66,28 +67,28 @@ class AllOwnersView extends StatelessWidget {
                                     ));
                               },
                               style: ListTileStyle.list,
-                              tileColor: context.colorScheme.onPrimary,
+                              tileColor: getIt<AppColors>().kCardColor,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                   side: BorderSide(
-                                      color: context.colorScheme.outline
-                                          .withOp(0.5))),
+                                      color: context.colorScheme.outline)),
                               title: Text(
                                 ownerInfo.ownerName ?? "",
                                 style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w400),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: context.colorScheme.onPrimary),
                               ),
                               trailing: Icon(
                                 Icons.adaptive.arrow_forward,
-                                color: context.colorScheme.outline,
+                                color: context.colorScheme.onPrimary,
                               ),
                               subtitle: Text(
                                 ownerInfo.mobileNumber ?? "",
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
-                                    color: context.theme.listTileTheme
-                                        .subtitleTextStyle?.color),
+                                    color: context.colorScheme.onPrimary),
                               ),
                             ),
                           );
@@ -97,7 +98,9 @@ class AllOwnersView extends StatelessWidget {
                   }
                   if (state is AllOwnersError) {
                     return Center(
-                      child: Text(state.error),
+                      child: Text(state.error,
+                          style:
+                              TextStyle(color: context.colorScheme.onPrimary)),
                     );
                   }
 

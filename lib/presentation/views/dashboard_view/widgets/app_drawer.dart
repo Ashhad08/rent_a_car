@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../constants/app_colors.dart';
 import '../../../../constants/extensions.dart';
 import '../../../../generated/assets.dart';
 import '../../../../navigation/navigation_helper.dart';
-import '../../../elements/gradient_body.dart';
-import '../../add_expenses_view/add_expenses_view.dart';
 import '../../add_fuel_rates/add_fuel_rates.dart';
+import '../../add_new_vehicle_view/add_new_vehicle_view.dart';
+import '../../all_expenses_view/all_expenses_view.dart';
 import '../../all_promotions_view/all_promotions_view.dart';
 import '../../day_book_view/day_book_view.dart';
-import '../../receipt_voucher_view/receipt_voucher_view.dart';
 import '../../rental_requests_view/rental_requests_view.dart';
-import '../../return_vehicle_view/return_vehicle_view.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -19,6 +18,11 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> drawerItems = [
+      {
+        'icon': Assets.iconsReturnVehicle,
+        'title': 'Add New Vehicle',
+        'nextScreen': AddNewVehicleView(),
+      },
       {
         'icon': Assets.iconsCarFront,
         'title': 'Rental Requests',
@@ -34,15 +38,15 @@ class AppDrawer extends StatelessWidget {
         'title': 'Add Fuel Rates',
         'nextScreen': AddFuelRates(),
       },
-      {
-        'icon': Assets.iconsReceipetVoucher,
-        'title': 'Receipt Voucher',
-        'nextScreen': ReceiptVoucherView(),
-      },
+      // {
+      //   'icon': Assets.iconsReceipetVoucher,
+      //   'title': 'Receipt Voucher',
+      //   'nextScreen': ReceiptVoucherView(),
+      // },
       {
         'icon': Assets.iconsExpenses,
         'title': 'Expenses',
-        'nextScreen': AddExpensesView(),
+        'nextScreen': AllExpensesView(),
       },
       {
         'icon': Assets.iconsDayBook,
@@ -51,57 +55,56 @@ class AppDrawer extends StatelessWidget {
       },
     ];
     return Drawer(
-      child: GradientBody(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  Assets.iconsAfaqTech,
-                  height: 24,
-                  width: 24,
-                  color: context.colorScheme.primary,
-                ),
-                8.width,
-                Text(
-                  'Afaq Technologies',
-                  style: TextStyle(
-                      color: context.colorScheme.primary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            30.height,
-            Text(
-              'Rent-A-Car',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: context.colorScheme.secondary,
+      backgroundColor: getIt<AppColors>().kCardColor,
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                Assets.iconsAfaqTech,
+                height: 24,
+                width: 24,
+                color: getIt<AppColors>().kPrimaryColor,
               ),
+              8.width,
+              Text(
+                'Afaq Technologies',
+                style: TextStyle(
+                    color: getIt<AppColors>().kPrimaryColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          40.height,
+          Text(
+            'Rent-A-Car',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.dmSans(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: context.colorScheme.onPrimary,
             ),
-            20.height,
-            ...drawerItems.map(
-              (e) => _buildDrawerTile(
-                  context: context,
-                  icon: e['icon'],
-                  onTap: () {
-                    getIt<NavigationHelper>().pop(context);
-                    getIt<NavigationHelper>().push(context, e["nextScreen"]);
-                  },
-                  title: e['title']),
-            ),
-            _buildDrawerTile(
+          ),
+          40.height,
+          ...drawerItems.map(
+            (e) => _buildDrawerTile(
                 context: context,
-                title: 'Logout',
-                icon: Assets.iconsLogout,
-                onTap: () {}),
-          ],
-        ),
+                icon: e['icon'],
+                onTap: () {
+                  getIt<NavigationHelper>().pop(context);
+                  getIt<NavigationHelper>().push(context, e["nextScreen"]);
+                },
+                title: e['title']),
+          ),
+          _buildDrawerTile(
+              context: context,
+              title: 'Logout',
+              icon: Assets.iconsLogout,
+              onTap: () {}),
+        ],
       ),
     );
   }
@@ -119,7 +122,7 @@ class AppDrawer extends StatelessWidget {
         child: ListTile(
           onTap: onTap,
           dense: true,
-          tileColor: context.colorScheme.primary,
+          tileColor: getIt<AppColors>().kPrimaryColor,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           leading: Image.asset(
@@ -132,12 +135,12 @@ class AppDrawer extends StatelessWidget {
           trailing: Icon(
             Icons.adaptive.arrow_forward,
             size: 20,
-            color: context.colorScheme.onPrimary,
+            color: context.colorScheme.secondary,
           ),
           title: Text(
             title,
             style: TextStyle(
-                color: context.colorScheme.onPrimary,
+                color: context.colorScheme.secondary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500),
           ),

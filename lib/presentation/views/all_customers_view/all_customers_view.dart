@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/customer/all_customers/all_customers_bloc.dart';
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../navigation/navigation_helper.dart';
 import '../../elements/app_text_field.dart';
@@ -50,41 +51,45 @@ class AllCustomersView extends StatelessWidget {
                         physics: AlwaysScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           final customer = state.customers[index];
-                          return Material(
-                            color: Colors.transparent,
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: customer.profileImage == null
-                                    ? null
-                                    : NetworkImage(customer.profileImage!),
-                              ),
-                              onTap: () {
-                                getIt<NavigationHelper>()
-                                    .push(context, CustomerDetailsView());
-                              },
-                              style: ListTileStyle.list,
-                              tileColor: context.colorScheme.onPrimary,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                  side: BorderSide(
-                                      color: context.colorScheme.outline
-                                          .withOp(0.5))),
-                              title: Text(
-                                customer.name ?? "",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w400),
-                              ),
-                              trailing: Icon(
-                                Icons.adaptive.arrow_forward,
-                                color: context.colorScheme.outline,
-                              ),
-                              subtitle: Text(
-                                customer.mobileNumber ?? "",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: context.theme.listTileTheme
-                                        .subtitleTextStyle?.color),
+                          return DefaultTextStyle(
+                            style:
+                                TextStyle(color: context.colorScheme.onPrimary),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: customer.profileImage == null
+                                      ? null
+                                      : NetworkImage(customer.profileImage!),
+                                ),
+                                onTap: () {
+                                  getIt<NavigationHelper>()
+                                      .push(context, CustomerDetailsView());
+                                },
+                                style: ListTileStyle.list,
+                                tileColor: getIt<AppColors>().kCardColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                    side: BorderSide(
+                                        color: context.colorScheme.outline)),
+                                title: Text(
+                                  customer.name ?? "",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: context.colorScheme.onPrimary),
+                                ),
+                                trailing: Icon(
+                                  Icons.adaptive.arrow_forward,
+                                  color: context.colorScheme.onPrimary,
+                                ),
+                                subtitle: Text(
+                                  customer.mobileNumber ?? "",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: context.colorScheme.onPrimary),
+                                ),
                               ),
                             ),
                           );
@@ -94,7 +99,9 @@ class AllCustomersView extends StatelessWidget {
                   }
                   if (state is AllCustomersError) {
                     return Center(
-                      child: Text(state.error),
+                      child: Text(state.error,
+                          style:
+                              TextStyle(color: context.colorScheme.onPrimary)),
                     );
                   }
 

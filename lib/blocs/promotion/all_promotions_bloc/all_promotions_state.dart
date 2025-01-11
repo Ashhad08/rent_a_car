@@ -14,7 +14,8 @@ final class AllPromotionsLoaded extends AllPromotionsState {
 
   List<PromotionInfo> get promos => _promos;
 
-  const AllPromotionsLoaded({required List<PromotionInfo> promos}) : _promos = promos;
+  const AllPromotionsLoaded({required List<PromotionInfo> promos})
+      : _promos = promos;
 
   @override
   List<Object> get props => [_promos];

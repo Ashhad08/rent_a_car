@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../constants/extensions.dart';
 import '../../../../generated/assets.dart';
 import '../../../../navigation/navigation_helper.dart';
-import '../onboarding_view/onboarding_view.dart';
+import '../../auth/login_view/login_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -22,13 +22,13 @@ class _SplashViewState extends State<SplashView> {
   void _navigateToNextScreen() async {
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
-    getIt<NavigationHelper>().pushReplacement(context, const OnboardingView());
+    getIt<NavigationHelper>().pushReplacement(context, const LoginView());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.colorScheme.primary,
+      backgroundColor: context.colorScheme.onSecondary,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(

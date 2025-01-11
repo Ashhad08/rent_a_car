@@ -116,7 +116,9 @@ class RentACar extends StatelessWidget {
       child: MaterialApp(
         title: 'Rent A Car',
         debugShowCheckedModeBanner: false,
-        theme: getIt<AppThemes>().lightTheme,
+        darkTheme: getIt<AppThemes>().darkTheme,
+        theme: getIt<AppThemes>().darkTheme,
+        themeMode: ThemeMode.dark,
         home: const SplashView(),
       ),
     );

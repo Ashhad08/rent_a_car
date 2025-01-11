@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,92 +40,108 @@ class _LoginViewState extends State<LoginView> {
           style: TextStyle(color: context.colorScheme.onPrimary),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(Assets.imagesLoginBg), fit: BoxFit.cover)),
-        child: Center(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.onPrimary.withOp(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Log In',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: context.colorScheme.onPrimary),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned.fill(child: ColoredBox(color: Color(0xff161C18))),
+          Positioned.fill(
+              child: Opacity(
+                  opacity: 0.2,
+                  child: Image.asset(
+                    Assets.imagesLoginBg,
+                    fit: BoxFit.cover,
+                  ))),
+          Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFFA7910A),
+                    Color(0xFF1D1B0C),
+                  ],
+                ),
+              ),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 14),
+                decoration: BoxDecoration(
+                  color: context.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Log In',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: context.colorScheme.onPrimary),
+                    ),
+                    4.height,
+                    Text(
+                      'Manage you rental services with ease',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: context.colorScheme.onPrimary),
+                    ),
+                    34.height,
+                    AppTextField(
+                      controller: _emailController,
+                      focusNode: _emailNode,
+                      textInputAction: TextInputAction.next,
+                      textInputType: TextInputType.emailAddress,
+                      onFieldSubmitted: (p0) {
+                        FocusScope.of(context).requestFocus(_passwordNode);
+                      },
+                      hintText: 'Enter email',
+                      prefixIcon: const Icon(
+                        CupertinoIcons.mail_solid,
+                        size: 22,
                       ),
-                      4.height,
-                      Text(
-                        'Manage you rental services with ease',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: context.colorScheme.onPrimary),
+                    ),
+                    18.height,
+                    AppTextField(
+                      controller: _passwordController,
+                      focusNode: _passwordNode,
+                      hintText: 'Enter password',
+                      isPasswordField: true,
+                      prefixIcon: const Icon(
+                        CupertinoIcons.lock_fill,
+                        size: 22,
                       ),
-                      34.height,
-                      AppTextField(
-                        controller: _emailController,
-                        focusNode: _emailNode,
-                        textInputAction: TextInputAction.next,
-                        textInputType: TextInputType.emailAddress,
-                        onFieldSubmitted: (p0) {
-                          FocusScope.of(context).requestFocus(_passwordNode);
-                        },
-                        hintText: 'Enter email',
-                        prefixIcon: const Icon(
-                          CupertinoIcons.mail_solid,
-                          size: 22,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Forgot password?',
+                          style: TextStyle(
+                              fontSize: 14, color: context.colorScheme.primary),
                         ),
                       ),
-                      18.height,
-                      AppTextField(
-                        controller: _passwordController,
-                        focusNode: _passwordNode,
-                        hintText: 'Enter password',
-                        isPasswordField: true,
-                        prefixIcon: const Icon(
-                          CupertinoIcons.lock_fill,
-                          size: 22,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot password?',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: context.colorScheme.secondary),
-                          ),
-                        ),
-                      ),
-                      50.height,
-                      CustomElevatedButton(
-                        onPressed: () {
-                          getIt<NavigationHelper>()
-                              .pushReplacement(context, const BottomNavBar());
-                        },
-                        text: 'Login',
-                      ),
-                    ],
-                  ),
-                )),
+                    ),
+                    50.height,
+                    CustomElevatedButton(
+                      onPressed: () {
+                        getIt<NavigationHelper>()
+                            .pushReplacement(context, const BottomNavBar());
+                      },
+                      text: 'Login',
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

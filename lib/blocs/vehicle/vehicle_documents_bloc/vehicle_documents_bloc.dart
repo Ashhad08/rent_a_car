@@ -21,7 +21,8 @@ class VehicleDocumentsBloc
     emit(state.copyWith(images: [...state.images, event.image]));
   }
 
-  void _onRemoveImage(RemoveDocumentImage event, Emitter<VehicleDocumentsState> emit) {
+  void _onRemoveImage(
+      RemoveDocumentImage event, Emitter<VehicleDocumentsState> emit) {
     final updatedImages = List<dynamic>.from(state.images);
     final updatedDeletedLinks = List<String>.from(state.deletedLinks);
 

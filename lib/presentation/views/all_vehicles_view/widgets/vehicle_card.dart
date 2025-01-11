@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
+import '../../../../constants/app_colors.dart';
 import '../../../../constants/extensions.dart';
 import '../../../../data/models/master_data/vehicle_model_model.dart';
 import '../../../../data/models/vehicle/vehicle_model.dart';
@@ -29,6 +30,7 @@ class VehicleCard extends StatelessWidget {
     }
     final vehicleDetails = [
       {'label': 'Color', 'value': vehicle.color ?? ""},
+      {'label': 'Reg', 'value': vehicle.regNo ?? ""},
       {'label': 'City', 'value': vehicle.regCity ?? ""},
       {'label': 'Rate', 'value': 'Rs.${vehicle.rateWithoutDriver ?? ""}'},
     ];
@@ -41,7 +43,7 @@ class VehicleCard extends StatelessWidget {
             painter: BorderPainter(
               clipper: CustomClipperForInwardBottomRight(),
               borderWidth: 1,
-              borderColor: context.colorScheme.outline.withOp(0.2),
+              borderColor: context.colorScheme.outline,
             ),
           ),
         ),
@@ -50,7 +52,7 @@ class VehicleCard extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 1.2, vertical: 1),
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            color: context.colorScheme.onPrimary,
+            color: getIt<AppColors>().kCardColor,
             height: 130,
             width: double.infinity,
             child: Row(
@@ -115,14 +117,14 @@ class VehicleCard extends StatelessWidget {
                   ));
             },
             style: ElevatedButton.styleFrom(
-                foregroundColor: context.colorScheme.onPrimary,
-                backgroundColor: context.colorScheme.primary,
+                foregroundColor: context.colorScheme.secondary,
+                backgroundColor: getIt<AppColors>().kPrimaryColor,
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100))),
             child: Icon(
               Icons.arrow_forward,
-              color: context.colorScheme.onPrimary,
+              color: context.colorScheme.secondary,
               size: 26,
             ),
           ).space(height: 50, width: 50),
@@ -134,21 +136,10 @@ class VehicleCard extends StatelessWidget {
   Widget _buildDetailRow(String label, String value, {bool isLast = false}) {
     return Padding(
       padding: EdgeInsets.only(bottom: isLast ? 0 : 6),
-      child: Text.rich(
-        TextSpan(
-          text: '$label :',
-          children: [
-            TextSpan(
-              text: '   $value',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: Color(0xff585858),
-              ),
-            ),
-          ],
-        ),
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+      child: Text(
+        '$label :  $value',
+        style: TextStyle(
+            fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
       ),
     );
   }

@@ -55,30 +55,28 @@ class PromotionInfo {
   factory PromotionInfo.fromJson(Map<String, dynamic> json) {
     debugPrint(json["vehicleList"].runtimeType.toString());
     return PromotionInfo(
-        id: json["_id"],
-        promoTitle: json["promoTitle"],
-        discountPercentage: json["discountPercentage"],
-        vehicleList: json["vehicleList"] == null
-            ? []
-            : json["vehicleList"] is Iterable<String>
-                ? List<VehicleModel>.from(json["vehicleList"]!.map(
-                    (id) => VehicleModel(id: id))) // Handle string IDs directly
-                : List<VehicleModel>.from(
-                    json["vehicleList"]!.map((x) => VehicleModel.fromJson(x))),
-        startDate: json["startDate"] == null
-            ? null
-            : DateTime.parse(json["startDate"]),
-        endDate:
-            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
-        description: json["description"],
-        isActive: json["status"] == null
-            ? null
-            : json["status"] == 'active'
-                ? true
-                : false,
-        date: json["date"] == null ? null : DateTime.parse(json["date"]),
-        v: json["__v"],
-      );
+      id: json["_id"],
+      promoTitle: json["promoTitle"],
+      discountPercentage: json["discountPercentage"],
+      vehicleList: json["vehicleList"] == null
+          ? []
+          : json["vehicleList"] is Iterable<String>
+              ? List<VehicleModel>.from(json["vehicleList"]!.map(
+                  (id) => VehicleModel(id: id))) // Handle string IDs directly
+              : List<VehicleModel>.from(
+                  json["vehicleList"]!.map((x) => VehicleModel.fromJson(x))),
+      startDate:
+          json["startDate"] == null ? null : DateTime.parse(json["startDate"]),
+      endDate: json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+      description: json["description"],
+      isActive: json["status"] == null
+          ? null
+          : json["status"] == 'active'
+              ? true
+              : false,
+      date: json["date"] == null ? null : DateTime.parse(json["date"]),
+      v: json["__v"],
+    );
   }
 
   Map<String, dynamic> toJson() => {

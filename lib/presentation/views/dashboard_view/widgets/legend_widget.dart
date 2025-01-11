@@ -16,10 +16,10 @@ class LegendWidget extends StatelessWidget {
       constraints: const BoxConstraints(minWidth: 119),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: context.colorScheme.onPrimary,
+        color: context.colorScheme.secondary,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: context.colorScheme.outline.withOp(0.4),
+          color: context.colorScheme.outline,
         ),
       ),
       child: Row(
@@ -29,7 +29,10 @@ class LegendWidget extends StatelessWidget {
           6.width,
           Text(
             title,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+            style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: context.colorScheme.onPrimary),
           ),
         ],
       ),

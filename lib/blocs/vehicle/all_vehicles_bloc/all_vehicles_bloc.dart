@@ -5,7 +5,6 @@ import '../../../data/models/vehicle/vehicle_model.dart';
 import '../../../domain/implementations/vehicle/vehicle_repository.dart';
 
 part 'all_vehicles_event.dart';
-
 part 'all_vehicles_state.dart';
 
 class AllVehiclesBloc extends Bloc<AllVehiclesEvent, AllVehiclesState> {

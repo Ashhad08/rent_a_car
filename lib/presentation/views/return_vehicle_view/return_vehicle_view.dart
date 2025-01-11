@@ -36,8 +36,7 @@ class ReturnVehicleView extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: context.colorScheme.onPrimaryContainer
-                                    .withOp(0.5)),
+                                color: context.colorScheme.onPrimary),
                           ),
                           10.height,
                           AppTextField(
@@ -61,8 +60,7 @@ class ReturnVehicleView extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: context.colorScheme.onPrimaryContainer
-                                    .withOp(0.5)),
+                                color: context.colorScheme.onPrimary),
                           ),
                           10.height,
                           AppTextField(
@@ -84,8 +82,7 @@ class ReturnVehicleView extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color:
-                          context.colorScheme.onPrimaryContainer.withOp(0.5)),
+                      color: context.colorScheme.onPrimary),
                 ),
                 10.height,
                 AppTextField(
@@ -97,8 +94,7 @@ class ReturnVehicleView extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color:
-                          context.colorScheme.onPrimaryContainer.withOp(0.5)),
+                      color: context.colorScheme.onPrimary),
                 ),
                 10.height,
                 AppTextField(
@@ -111,8 +107,7 @@ class ReturnVehicleView extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
-                      color:
-                          context.colorScheme.onPrimaryContainer.withOp(0.5)),
+                      color: context.colorScheme.onPrimary),
                 ),
                 10.height,
                 AppTextField(

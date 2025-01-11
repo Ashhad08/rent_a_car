@@ -46,6 +46,7 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final border = Color(0xff2B3523);
     return BlocProvider(
       create: (context) =>
           AppTextFieldBloc()..add(InitObscureTextEvent(isPasswordField)),
@@ -63,6 +64,7 @@ class AppTextField extends StatelessWidget {
             style: GoogleFonts.poppins(
               fontSize: 14,
               fontWeight: FontWeight.w500,
+              color: Colors.white,
             ),
             obscureText: state.obscureText,
             controller: controller,
@@ -80,13 +82,13 @@ class AppTextField extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                  color: context.colorScheme.outline.withOp(0.3),
+                  color: border,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                  color: context.colorScheme.outline.withOp(0.3),
+                  color: border,
                 ),
               ),
               errorBorder: OutlineInputBorder(
@@ -97,8 +99,8 @@ class AppTextField extends StatelessWidget {
               ),
               hintText: hintText,
               filled: true,
-              prefixIconColor: context.colorScheme.outline.withOp(0.8),
-              fillColor: context.colorScheme.onPrimary,
+              prefixIconColor: context.colorScheme.onPrimary,
+              fillColor: context.colorScheme.secondary,
               prefixIcon: prefixIcon == null
                   ? null
                   : Padding(
@@ -106,9 +108,9 @@ class AppTextField extends StatelessWidget {
                       child: prefixIcon,
                     ),
               hintStyle: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: context.colorScheme.onPrimary),
               suffixIcon: isPasswordField
                   ? IconButton(
                       onPressed: () {
@@ -119,11 +121,11 @@ class AppTextField extends StatelessWidget {
                       icon: state.obscureText
                           ? Icon(
                               CupertinoIcons.eye_slash,
-                              color: context.colorScheme.outline.withOp(0.8),
+                              color: context.colorScheme.onPrimary,
                             )
                           : Icon(
                               CupertinoIcons.eye,
-                              color: context.colorScheme.outline.withOp(0.8),
+                              color: context.colorScheme.onPrimary,
                             ),
                     )
                   : suffix,

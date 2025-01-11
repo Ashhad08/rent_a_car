@@ -8,10 +8,14 @@ class AppThemes {
 
   AppThemes({required AppColors appColors}) : _appColors = appColors;
 
-  ThemeData get lightTheme => ThemeData(
+  ThemeData get darkTheme => ThemeData(
         useMaterial3: true,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.dark,
+          onPrimary: Colors.white,
+          surface: Color(0xff384322),
+          onSecondary: Colors.black,
           seedColor: _appColors.kPrimaryColor,
           outline: _appColors.kBorderColor,
           secondary: _appColors.kSecondaryColor,
@@ -20,19 +24,20 @@ class AppThemes {
         appBarTheme: AppBarTheme(
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
-            foregroundColor: Colors.black,
+            foregroundColor: Colors.white,
             centerTitle: true,
             titleTextStyle: GoogleFonts.poppins(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.black)),
+                color: Colors.white)),
         fontFamily: 'Poppins',
+        dividerColor: Color(0xff384322),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-            backgroundColor: Colors.transparent,
-            foregroundColor: _appColors.kWhiteColor,
+            backgroundColor: _appColors.kPrimaryColor,
+            foregroundColor: Colors.black,
             padding: EdgeInsets.zero,
             textStyle:
                 GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
@@ -40,8 +45,11 @@ class AppThemes {
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            textStyle:
-                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600),
+            foregroundColor: _appColors.kPrimaryColor,
+            textStyle: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: _appColors.kPrimaryColor),
           ),
         ),
       );

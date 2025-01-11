@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
 import '../../../utils/utils.dart';
@@ -45,33 +46,35 @@ class OnRentVehiclesView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       VehicleCard2(
-                          status: 'Active',
-                          showTrackLocationIcon: true,
-                          showReturnVehicleIcon: true,
-                          vehicle: VehicleModel(
-                            id: index.toString(),
-                            carTypeId: "1",
-                            color: 'Black',
-                            regCity: 'Lahore',
-                            rateWithoutDriver: "1000",
-                          ),
-                          statusColor: Color(0xff06A623)),
+                        status: 'Active',
+                        showTrackLocationIcon: true,
+                        showReturnVehicleIcon: true,
+                        vehicle: VehicleModel(
+                          id: index.toString(),
+                          carTypeId: "1",
+                          color: 'Black',
+                          regCity: 'Lahore',
+                          rateWithoutDriver: "1000",
+                        ),
+                      ),
                       12.height,
                       Material(
                         color: Colors.transparent,
                         child: ListTile(
                           dense: true,
                           leading: CircleAvatar(),
-                          tileColor: context.colorScheme.onPrimary,
+                          tileColor: getIt<AppColors>().kCardColor,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                               side: BorderSide(
-                                  color:
-                                      context.colorScheme.outline.withOp(0.3))),
+                                  color: context.colorScheme.outline)),
                           title: Text(
                             'Brooklyn Simmons',
                             style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w400),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onPrimary,
+                            ),
                           ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -80,14 +83,15 @@ class OnRentVehiclesView extends StatelessWidget {
                                       style: IconButton.styleFrom(
                                         fixedSize: Size(30, 30),
                                         iconSize: 16,
-                                        foregroundColor: context
-                                            .colorScheme.onPrimaryContainer
-                                            .withOp(0.5),
+                                        backgroundColor:
+                                            context.colorScheme.surface,
+                                        foregroundColor:
+                                            getIt<AppColors>().kPrimaryColor,
                                         padding: EdgeInsets.zero,
                                         side: BorderSide(
-                                            color: context
-                                                .colorScheme.onPrimaryContainer
-                                                .withOp(0.2)),
+                                          color:
+                                              getIt<AppColors>().kPrimaryColor,
+                                        ),
                                       ),
                                       onPressed: () {},
                                       icon: Icon(CupertinoIcons.phone))
@@ -97,27 +101,28 @@ class OnRentVehiclesView extends StatelessWidget {
                                       style: IconButton.styleFrom(
                                         fixedSize: Size(30, 30),
                                         iconSize: 16,
-                                        foregroundColor: context
-                                            .colorScheme.onPrimaryContainer
-                                            .withOp(0.5),
+                                        backgroundColor:
+                                            context.colorScheme.surface,
+                                        foregroundColor:
+                                            getIt<AppColors>().kPrimaryColor,
                                         padding: EdgeInsets.zero,
                                         side: BorderSide(
-                                            color: context
-                                                .colorScheme.onPrimaryContainer
-                                                .withOp(0.2)),
+                                          color:
+                                              getIt<AppColors>().kPrimaryColor,
+                                        ),
                                       ),
                                       onPressed: () {},
                                       icon: Icon(CupertinoIcons.bubble_right))
-                                  .space(height: 30, width: 30)
+                                  .space(height: 30, width: 30),
                             ],
                           ),
                           subtitle: Text(
                             '+92 123456789',
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: context.theme.listTileTheme
-                                    .subtitleTextStyle?.color),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: context.colorScheme.onPrimary,
+                            ),
                           ),
                         ),
                       ),
