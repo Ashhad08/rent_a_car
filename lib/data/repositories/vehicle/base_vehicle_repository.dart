@@ -26,6 +26,8 @@ abstract class BaseVehicleRepository {
 
   Future<ResponseModel<VehicleModel>> createVehicle(VehicleModel vehicle);
 
+  Future<ResponseModel<VehicleModel>> updateVehicle(VehicleModel vehicle);
+
   Future<ResponseModel<FuelTypeModel>> updateFuelRate(FuelTypeModel fuelType);
 
   Future<List<VehicleModel>> getAllVehicles();

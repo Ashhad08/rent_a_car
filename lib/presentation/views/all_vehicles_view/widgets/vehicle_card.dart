@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
+import '../../../../blocs/master_data/vehicle_all_makes_bloc/vehicle_all_makes_bloc.dart';
+import '../../../../blocs/master_data/vehicle_models_bloc/vehicle_models_bloc.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/extensions.dart';
-import '../../../../data/models/master_data/vehicle_model_model.dart';
 import '../../../../data/models/vehicle/vehicle_model.dart';
-import '../../../../domain/implementations/master_data/master_data_repository.dart';
 import '../../../../navigation/navigation_helper.dart';
 import '../../vehicle_details_view/vehicle_details_view.dart';
 
@@ -17,18 +16,33 @@ class VehicleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<VehicleAllTypesBloc>().state;
-    String vehicleType = '';
-    if (state is VehicleAllTypesLoaded) {
-      vehicleType = state.allTypes
+    final state = context.read<VehicleAllMakesBloc>().state;
+    final stateModels = context.read<VehicleModelsBloc>().state;
+    String vehicleMake = '';
+    String vehicleModel = '';
+    if (state is VehicleAllMakesLoaded) {
+      vehicleMake = state.allMakes
               .where(
-                (element) => element.id == vehicle.carTypeId,
+                (element) =>
+                    element.makeName?.toLowerCase() ==
+                    vehicle.makeName?.toLowerCase(),
               )
               .firstOrNull
-              ?.typeName ??
+              ?.makeName ??
           "";
     }
+    if (stateModels is VehicleModelsLoaded) {
+      vehicleModel = stateModels.models
+              .where(
+                (element) => element.id == vehicle.carModelId,
+              )
+              .firstOrNull
+              ?.modelName ??
+          "";
+    }
+
     final vehicleDetails = [
+      {'label': vehicleMake, 'value': vehicleModel},
       {'label': 'Color', 'value': vehicle.color ?? ""},
       {'label': 'Reg', 'value': vehicle.regNo ?? ""},
       {'label': 'City', 'value': vehicle.regCity ?? ""},
@@ -74,32 +88,20 @@ class VehicleCard extends StatelessWidget {
                 Expanded(
                   flex: 6,
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        FutureBuilder<VehicleModelModel?>(
-                            future: getIt<MasterDataRepository>()
-                                .getVehicleModelModelById(
-                                    vehicleModelId: vehicle.carModelId ?? ""),
-                            builder: (context, snap) {
-                              return _buildDetailRow(
-                                vehicleType,
-                                '${snap.data?.modelName ?? ""} ${vehicle.yearOfModel ?? ""}',
-                                isLast: false,
-                              );
-                            }),
-                        ...List.generate(
-                          vehicleDetails.length,
-                          (index) {
-                            final detail = vehicleDetails[index];
-                            return _buildDetailRow(
-                              detail['label']!,
-                              detail['value']!,
-                              isLast: index == vehicleDetails.length - 1,
-                            );
-                          },
-                        ),
-                      ]),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      vehicleDetails.length,
+                      (index) {
+                        final detail = vehicleDetails[index];
+                        return _buildDetailRow(
+                          detail['label']!,
+                          detail['value']!,
+                          isLast: index == vehicleDetails.length - 1,
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),

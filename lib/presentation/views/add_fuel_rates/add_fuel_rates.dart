@@ -27,6 +27,12 @@ class _AddFuelRatesState extends State<AddFuelRates> {
   final _key = GlobalKey<FormState>();
 
   @override
+  void dispose() {
+    _rateController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LoadingBloc(),

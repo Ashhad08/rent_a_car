@@ -12,7 +12,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.width,
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final double? height;
   final double? width;

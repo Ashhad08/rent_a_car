@@ -30,6 +30,8 @@ class Assets {
   static const String iconsNotAvailable = 'assets/icons/not_available.png';
   static const String iconsOwners = 'assets/icons/owners.png';
   static const String iconsPromotions = 'assets/icons/promotions.png';
+  static const String iconsReceipetVoucher =
+      'assets/icons/receipet_voucher.png';
   static const String iconsRentCar = 'assets/icons/rent_car.png';
   static const String iconsReturnVehicle = 'assets/icons/return_vehicle.png';
   static const String iconsSettings = 'assets/icons/settings.png';

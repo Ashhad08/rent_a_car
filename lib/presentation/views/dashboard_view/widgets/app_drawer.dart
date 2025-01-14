@@ -8,6 +8,7 @@ import '../../../../navigation/navigation_helper.dart';
 import '../../add_fuel_rates/add_fuel_rates.dart';
 import '../../add_new_vehicle_view/add_new_vehicle_view.dart';
 import '../../all_expenses_view/all_expenses_view.dart';
+import '../../all_payment_vouchers_view/all_payment_vouchers_view.dart';
 import '../../all_promotions_view/all_promotions_view.dart';
 import '../../day_book_view/day_book_view.dart';
 import '../../rental_requests_view/rental_requests_view.dart';
@@ -38,11 +39,11 @@ class AppDrawer extends StatelessWidget {
         'title': 'Add Fuel Rates',
         'nextScreen': AddFuelRates(),
       },
-      // {
-      //   'icon': Assets.iconsReceipetVoucher,
-      //   'title': 'Receipt Voucher',
-      //   'nextScreen': ReceiptVoucherView(),
-      // },
+      {
+        'icon': Assets.iconsReceipetVoucher,
+        'title': 'Receipt Vouchers',
+        'nextScreen': AllPaymentVouchersView(),
+      },
       {
         'icon': Assets.iconsExpenses,
         'title': 'Expenses',

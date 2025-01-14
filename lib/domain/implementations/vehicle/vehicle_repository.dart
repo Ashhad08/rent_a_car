@@ -43,6 +43,28 @@ class VehicleRepository extends BaseVehicleRepository {
   }
 
   @override
+  Future<ResponseModel<VehicleModel>> updateVehicle(
+      VehicleModel vehicle) async {
+    try {
+      final res = await super.networkRepository.post(
+            uri: super.backendConfigs.buildUri(
+              segments: [
+                super.backendConfigs.vehicle,
+                super.backendConfigs.updateVehicle,
+              ],
+            ),
+            data: vehicle.toJson(),
+          );
+      return ResponseModel<VehicleModel>.fromJson(
+        res,
+        (data) => VehicleModel.fromJson(data),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<ResponseModel<FuelTypeModel>> updateFuelRate(
       FuelTypeModel fuelType) async {
     try {
@@ -89,7 +111,8 @@ class VehicleRepository extends BaseVehicleRepository {
     try {
       final res = await super.networkRepository.get(
               uri: super.backendConfigs.buildUri(segments: [
-            super.backendConfigs.vehicle,
+            super.backendConfigs.owner,
+            super.backendConfigs.unassignedVehicles,
           ]));
       return ResponseModel<List<VehicleModel>>.fromJson(
             res,

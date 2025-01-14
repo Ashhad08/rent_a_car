@@ -11,15 +11,15 @@ import '../../../blocs/loading_bloc/loading_bloc.dart';
 import '../../../blocs/master_data/all_fuel_types_bloc/all_fuel_types_bloc.dart';
 import '../../../blocs/master_data/vehicle_all_colors_bloc/vehicle_all_colors_bloc.dart';
 import '../../../blocs/master_data/vehicle_all_features_bloc/vehicle_all_features_bloc.dart';
+import '../../../blocs/master_data/vehicle_all_makes_bloc/vehicle_all_makes_bloc.dart';
 import '../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
-import '../../../blocs/master_data/vehicle_models_by_type_bloc/vehicle_models_by_type_bloc.dart';
+import '../../../blocs/master_data/vehicle_models_bloc/vehicle_models_bloc.dart';
 import '../../../blocs/vehicle/all_vehicles_bloc/all_vehicles_bloc.dart';
 import '../../../blocs/vehicle/vehicle_documents_bloc/vehicle_documents_bloc.dart';
 import '../../../blocs/vehicle/vehicle_images_bloc/vehicle_images_bloc.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
-import '../../../domain/implementations/master_data/master_data_repository.dart';
 import '../../../domain/implementations/vehicle/vehicle_repository.dart';
 import '../../../domain/services/image_services.dart';
 import '../../../generated/assets.dart';
@@ -49,6 +49,7 @@ class _AddNewVehicleViewState extends State<AddNewVehicleView> {
   final _monthlyDiscountController = TextEditingController();
   final _weeklyDiscountController = TextEditingController();
   MapEntry<String, String>? _vehicleType;
+  MapEntry<String, String>? _vehicleMake;
   MapEntry<String, String>? _vehicleModel;
   MapEntry<String, String>? _vehicleColor;
   MapEntry<String, String>? _vehicleTransmission;
@@ -81,9 +82,6 @@ class _AddNewVehicleViewState extends State<AddNewVehicleView> {
         BlocProvider(
           create: (context) => LoadingBloc(),
         ),
-        BlocProvider(
-            create: (context) =>
-                VehicleModelsByTypeBloc(getIt<MasterDataRepository>())),
         BlocProvider(
           create: (context) => VehicleImagesBloc(
             maxLength: 10,
@@ -264,12 +262,6 @@ class _AddNewVehicleViewState extends State<AddNewVehicleView> {
                                           onSelected: (val) {
                                             if (val != null) {
                                               _vehicleType = val;
-                                              context
-                                                  .read<
-                                                      VehicleModelsByTypeBloc>()
-                                                  .add(
-                                                      LoadVehicleModelsByTypeEvent(
-                                                          typeId: val.key));
                                             }
                                           },
                                           enabled:
@@ -281,8 +273,44 @@ class _AddNewVehicleViewState extends State<AddNewVehicleView> {
                                       },
                                     ),
                                     16.height,
-                                    BlocBuilder<VehicleModelsByTypeBloc,
-                                        VehicleModelsByTypeState>(
+                                    BlocBuilder<VehicleAllMakesBloc,
+                                        VehicleAllMakesState>(
+                                      builder: (context, state) {
+                                        return CustomDropDown(
+                                          errorMessageIfRequired:
+                                              'Kindly Select Vehicle Make',
+                                          prefixIcon: Image.asset(
+                                            Assets.iconsCar3,
+                                            height: 24,
+                                            width: 24,
+                                            color: getIt<AppColors>()
+                                                .kPrimaryColor,
+                                          ),
+                                          label: 'Vehicle Make',
+                                          dropdownMenuEntries:
+                                              (state is VehicleAllMakesLoaded)
+                                                  ? (state.allMakes.map(
+                                                      (e) => MapEntry(
+                                                          e.id ?? "",
+                                                          e.makeName ?? ""),
+                                                    )).toList()
+                                                  : [],
+                                          onSelected: (val) {
+                                            if (val != null) {
+                                              _vehicleMake = val;
+                                            }
+                                          },
+                                          enabled:
+                                              (state is VehicleAllMakesLoaded)
+                                                  ? true
+                                                  : false,
+                                          initialItem: _vehicleMake,
+                                        );
+                                      },
+                                    ),
+                                    16.height,
+                                    BlocBuilder<VehicleModelsBloc,
+                                        VehicleModelsState>(
                                       builder: (context, state) {
                                         return CustomDropDown(
                                           errorMessageIfRequired:
@@ -295,20 +323,21 @@ class _AddNewVehicleViewState extends State<AddNewVehicleView> {
                                                 .kPrimaryColor,
                                           ),
                                           label: 'Vehicle Model',
-                                          dropdownMenuEntries: (state
-                                                  is VehicleModelsByTypeLoaded)
-                                              ? (state.modelsByType.map(
-                                                  (e) => MapEntry(e.id ?? "",
-                                                      e.modelName ?? ""),
-                                                )).toList()
-                                              : [],
+                                          dropdownMenuEntries:
+                                              (state is VehicleModelsLoaded)
+                                                  ? (state.models.map(
+                                                      (e) => MapEntry(
+                                                          e.id ?? "",
+                                                          e.modelName ?? ""),
+                                                    )).toList()
+                                                  : [],
                                           onSelected: (val) {
                                             if (val != null) {
                                               _vehicleModel = val;
                                             }
                                           },
-                                          enabled: (state
-                                              is VehicleModelsByTypeLoaded),
+                                          enabled:
+                                              (state is VehicleModelsLoaded),
                                           initialItem: _vehicleModel,
                                         );
                                       },
@@ -980,6 +1009,7 @@ class _AddNewVehicleViewState extends State<AddNewVehicleView> {
                                             _yearOfModelController.text.trim(),
                                         carTypeId: _vehicleType?.key,
                                         carModelId: _vehicleModel?.key,
+                                        makeName: _vehicleMake?.value,
                                         color: _vehicleColor?.value,
                                         transmission:
                                             _vehicleTransmission?.value,

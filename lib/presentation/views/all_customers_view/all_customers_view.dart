@@ -63,8 +63,11 @@ class AllCustomersView extends StatelessWidget {
                                       : NetworkImage(customer.profileImage!),
                                 ),
                                 onTap: () {
-                                  getIt<NavigationHelper>()
-                                      .push(context, CustomerDetailsView());
+                                  getIt<NavigationHelper>().push(
+                                      context,
+                                      CustomerDetailsView(
+                                        customer: customer,
+                                      ));
                                 },
                                 style: ListTileStyle.list,
                                 tileColor: getIt<AppColors>().kCardColor,

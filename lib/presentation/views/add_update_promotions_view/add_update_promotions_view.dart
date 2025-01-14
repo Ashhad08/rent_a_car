@@ -83,7 +83,8 @@ class _AddUpdatePromotionsViewState extends State<AddUpdatePromotionsView> {
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               leading: getIt<Utils>().popIcon(context),
-              title: const Text('Add Promotion'),
+              title: Text(
+                  '${widget.promotion != null ? 'Edit' : "Add"} Promotion'),
             ),
             body: GradientBody(
               child: SingleChildScrollView(

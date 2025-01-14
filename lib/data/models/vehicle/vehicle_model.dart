@@ -16,6 +16,7 @@ class VehicleModel {
   final String? discountMonth;
   final String? fuelType;
   final String? status;
+  final String? makeName;
   final List<String>? features;
   final List<String>? images;
   final List<String>? documents;
@@ -25,6 +26,7 @@ class VehicleModel {
   VehicleModel({
     this.id,
     this.regNo,
+    this.makeName,
     this.status,
     this.regCity,
     this.yearOfModel,
@@ -58,12 +60,14 @@ class VehicleModel {
     String? transmission,
     String? engineCapacity,
     String? chasisNo,
+    String? makeName,
     String? engineNo,
     String? rateWithDriver,
     String? rateWithoutDriver,
     String? discountWeek,
     String? discountMonth,
     String? fuelType,
+    String? status,
     List<String>? features,
     List<String>? images,
     List<String>? documents,
@@ -72,7 +76,9 @@ class VehicleModel {
   }) =>
       VehicleModel(
         id: id ?? this.id,
+        status: status ?? this.status,
         regNo: regNo ?? this.regNo,
+        makeName: makeName ?? this.makeName,
         regCity: regCity ?? this.regCity,
         yearOfModel: yearOfModel ?? this.yearOfModel,
         carTypeId: carTypeId ?? this.carTypeId,
@@ -105,6 +111,7 @@ class VehicleModel {
         transmission: json["transmission"],
         engineCapacity: json["engineCapacity"],
         chasisNo: json["chasisNo"],
+        makeName: json["makeName"],
         engineNo: json["engineNo"],
         rateWithDriver: json["rateWithDriver"],
         rateWithoutDriver: json["rateWithoutDriver"],
@@ -130,7 +137,7 @@ class VehicleModel {
       );
 
   Map<String, dynamic> toJson() => {
-        if (id != null) "_id": id,
+        if (id != null) "vehicleID": id,
         "regNo": regNo,
         "regCity": regCity,
         "yearOfModel": yearOfModel,
@@ -147,6 +154,7 @@ class VehicleModel {
         "discountMonth": discountMonth,
         "fuelType": fuelType,
         "status": status ?? "available",
+        "makeName": makeName,
         "features":
             features == null ? [] : List<dynamic>.from(features!.map((x) => x)),
         "images":

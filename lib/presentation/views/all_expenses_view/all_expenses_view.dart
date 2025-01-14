@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/expense/all_expenses_bloc/all_expenses_bloc.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
-import '../../../generated/assets.dart';
 import '../../../navigation/navigation_helper.dart';
 import '../../../utils/utils.dart';
 import '../../elements/gradient_body.dart';
-import '../add_expenses_view/add_expenses_view.dart';
+import '../add_update_expenses_view/add_update_expenses_view.dart';
+import 'widgets/expense_card.dart';
 
 class AllExpensesView extends StatelessWidget {
   const AllExpensesView({super.key});
@@ -28,7 +30,7 @@ class AllExpensesView extends StatelessWidget {
               foregroundColor: context.colorScheme.secondary,
             ),
             onPressed: () {
-              getIt<NavigationHelper>().push(context, AddExpensesView());
+              getIt<NavigationHelper>().push(context, AddUpdateExpensesView());
             },
             icon: Icon(Icons.add),
           ).space(height: 32, width: 32),
@@ -36,115 +38,33 @@ class AllExpensesView extends StatelessWidget {
         ],
       ),
       body: GradientBody(
-        child: ListView.separated(
-          padding: EdgeInsets.all(20),
-          separatorBuilder: (context, index) => 14.height,
-          itemCount: 10,
-          physics: AlwaysScrollableScrollPhysics(),
-          itemBuilder: (context, index) => Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-            decoration: BoxDecoration(
-                color: getIt<AppColors>().kCardColor,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: context.colorScheme.outline)),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: Column(
-                      spacing: 4,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Petrol',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: context.colorScheme.onPrimary),
-                        ),
-                        Text(
-                          'Refilled tank at shell station',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: context.colorScheme.onPrimary),
-                        ),
-                        Text(
-                          'Dec 27, 2024',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: context.colorScheme.onPrimary),
-                        )
-                      ],
-                    )),
-                    10.width,
-                    Column(
-                      children: [
-                        IconButton.outlined(
-                            onPressed: () {},
-                            padding: EdgeInsets.zero,
-                            style: IconButton.styleFrom(
-                                side: BorderSide(
-                                    color: getIt<AppColors>().kPrimaryColor)),
-                            icon: Image.asset(
-                              Assets.iconsEdit2,
-                              color: getIt<AppColors>().kPrimaryColor,
-                              height: 18,
-                              width: 18,
-                            )).space(height: 30, width: 30),
-                        12.height,
-                        IconButton.outlined(
-                            onPressed: () {},
-                            style: IconButton.styleFrom(
-                                side: BorderSide(
-                                    color: getIt<AppColors>().kPrimaryColor)),
-                            padding: EdgeInsets.zero,
-                            icon: Image.asset(
-                              Assets.iconsDelete,
-                              color: getIt<AppColors>().kPrimaryColor,
-                              height: 18,
-                              width: 18,
-                            )).space(height: 30, width: 30),
-                      ],
-                    ),
-                  ],
-                ),
-                14.height,
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 7),
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: context.colorScheme.outline),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Amount',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: getIt<AppColors>().kPrimaryColor,
-                        ),
+        child: BlocBuilder<AllExpensesBloc, AllExpensesState>(
+          builder: (context, state) {
+            if (state is AllExpensesLoaded) {
+              return RefreshIndicator.adaptive(
+                  onRefresh: () async => context.read<AllExpensesBloc>().add(
+                        LoadAllExpensesEvent(),
                       ),
-                      Text(
-                        2000.toString(),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: getIt<AppColors>().kPrimaryColor,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                  child: ListView.separated(
+                    padding: EdgeInsets.all(20),
+                    separatorBuilder: (context, index) => 14.height,
+                    itemCount: state.expenses.length,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => ExpenseCard(
+                        expense: state.expenses[index], showIcons: true),
+                  ));
+            }
+            if (state is AllExpensesError) {
+              return Center(
+                child: Text(state.error,
+                    style: TextStyle(color: context.colorScheme.onPrimary)),
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          },
         ),
       ),
     );

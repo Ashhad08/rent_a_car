@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/extensions.dart';
+import '../../../../data/models/master_data/dashboard_model.dart';
 
 class PieChartView extends StatefulWidget {
-  const PieChartView({super.key});
+  const PieChartView({super.key, required this.dashboardData});
+
+  final DashboardModel dashboardData;
 
   @override
   State<PieChartView> createState() => _PieChartViewState();
@@ -40,11 +43,26 @@ class _PieChartViewState extends State<PieChartView> {
   }
 
   List<PieChartSectionData> _showingSections() {
+    final dashboardData = widget.dashboardData;
+
+    // Data for the pie chart
     final data = [
-      {'value': 40.0, 'title': '150'},
-      {'value': 15.0, 'title': '44'},
-      {'value': 30.0, 'title': '53'},
-      {'value': 10.0, 'title': '44'},
+      {
+        'value': dashboardData.allVehicles?.toDouble() ?? 0,
+        'title': '${dashboardData.allVehicles ?? 0}',
+      },
+      {
+        'value': dashboardData.availableVehicles?.toDouble() ?? 0,
+        'title': '${dashboardData.availableVehicles ?? 0}',
+      },
+      {
+        'value': dashboardData.allCustomers?.toDouble() ?? 0,
+        'title': '${dashboardData.allCustomers ?? 0}',
+      },
+      {
+        'value': dashboardData.onRentVehicles?.toDouble() ?? 0,
+        'title': '${dashboardData.onRentVehicles ?? 0}',
+      },
     ];
 
     return List.generate(data.length, (i) {
@@ -60,7 +78,9 @@ class _PieChartViewState extends State<PieChartView> {
         radius: isTouched ? 45.0 : 40.0,
         badgeWidget: CircleAvatar(
           radius: 5,
-          backgroundColor: getIt<AppColors>().kCardColor,
+          backgroundColor: isTouched
+              ? getIt<AppColors>().kPrimaryColor
+              : getIt<AppColors>().kCardColor,
         ),
         badgePositionPercentageOffset: 1.3,
         titlePositionPercentageOffset: 1.7,

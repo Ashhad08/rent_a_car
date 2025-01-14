@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/master_data/vehicle_all_features_bloc/vehicle_all_features_bloc.dart';
+import '../../../blocs/master_data/vehicle_all_makes_bloc/vehicle_all_makes_bloc.dart';
 import '../../../blocs/master_data/vehicle_all_types_bloc/vehicle_all_types_bloc.dart';
+import '../../../blocs/master_data/vehicle_models_bloc/vehicle_models_bloc.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/extensions.dart';
-import '../../../data/models/master_data/vehicle_model_model.dart';
 import '../../../data/models/vehicle/vehicle_model.dart';
-import '../../../domain/implementations/master_data/master_data_repository.dart';
 import '../../../generated/assets.dart';
 import '../../../navigation/navigation_helper.dart';
 import '../../../utils/utils.dart';
@@ -23,7 +23,11 @@ class VehicleDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.read<VehicleAllTypesBloc>().state;
+    final stateModels = context.read<VehicleModelsBloc>().state;
+    final stateMakes = context.read<VehicleAllMakesBloc>().state;
     String vehicleType = '';
+    String vehicleModel = '';
+    String vehicleMake = '';
     if (state is VehicleAllTypesLoaded) {
       vehicleType = state.allTypes
               .where(
@@ -33,12 +37,38 @@ class VehicleDetailsView extends StatelessWidget {
               ?.typeName ??
           "";
     }
+    if (stateModels is VehicleModelsLoaded) {
+      vehicleModel = stateModels.models
+              .where(
+                (element) => element.id == vehicle.carModelId,
+              )
+              .firstOrNull
+              ?.modelName ??
+          "";
+    }
+    if (stateMakes is VehicleAllMakesLoaded) {
+      vehicleMake = stateMakes.allMakes
+              .where(
+                (element) =>
+                    element.makeName?.toLowerCase() ==
+                    vehicle.makeName?.toLowerCase(),
+              )
+              .firstOrNull
+              ?.makeName ??
+          "";
+    }
+
     final List<Map<String, String>> overViewItems = [
-      // {
-      //   'image': Assets.iconsCarFront,
-      //   'title': 'Make',
-      //   'value': 'Honda',
-      // },
+      {
+        'image': Assets.iconsCarFront,
+        'title': 'Make',
+        'value': vehicleMake,
+      },
+      {
+        'image': Assets.iconsCar3,
+        'title': 'Model',
+        'value': vehicleModel,
+      },
       {
         'image': Assets.iconsCalender,
         'title': 'Year',
@@ -115,17 +145,6 @@ class VehicleDetailsView extends StatelessWidget {
       appBar: AppBar(
         leading: getIt<Utils>().popIcon(context),
         title: const Text('Details'),
-        // actions: [
-        //   IconButton(
-        //     style: IconButton.styleFrom(
-        //       iconSize: 22,
-        //       backgroundColor: context.colorScheme.onPrimary,
-        //     ),
-        //     onPressed: () {},
-        //     icon: Icon(CupertinoIcons.heart),
-        //   ),
-        //   6.width,
-        // ],
       ),
       body: GradientBody(
         child: SingleChildScrollView(
@@ -168,103 +187,53 @@ class VehicleDetailsView extends StatelessWidget {
                             14.height,
                             Row(
                               spacing: context.screenWidth * 0.03,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 92,
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: context.colorScheme.surface,
-                                      border: Border.all(
-                                        color: getIt<AppColors>().kPrimaryColor,
-                                      ),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Image.asset(
-                                          Assets.iconsCar3,
-                                          height: 26,
-                                          width: 26,
-                                          color:
-                                              getIt<AppColors>().kPrimaryColor,
-                                        ),
-                                        Spacer(),
-                                        Text(
-                                          'Model',
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color:
-                                                  context.colorScheme.onPrimary,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                        FutureBuilder<VehicleModelModel?>(
-                                            future:
-                                                getIt<MasterDataRepository>()
-                                                    .getVehicleModelModelById(
-                                                        vehicleModelId: vehicle
-                                                                .carModelId ??
-                                                            ""),
-                                            builder: (context, snap) {
-                                              return Text(
-                                                snap.data?.modelName ?? "",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              );
-                                            }),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                ...overViewItems.map(
-                                  (e) => Expanded(
-                                    child: Container(
-                                      height: 92,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: context.colorScheme.surface,
-                                        border: Border.all(
-                                          color:
-                                              getIt<AppColors>().kPrimaryColor,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image.asset(
-                                            e['image'] as String,
-                                            height: 26,
-                                            width: 26,
+                              children: overViewItems
+                                  .map(
+                                    (e) => Expanded(
+                                      child: Container(
+                                        height: 92,
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: context.colorScheme.surface,
+                                          border: Border.all(
                                             color: getIt<AppColors>()
                                                 .kPrimaryColor,
                                           ),
-                                          Spacer(),
-                                          Text(
-                                            e['title'] as String,
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: context
-                                                    .colorScheme.onPrimary,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            e['value'] as String,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400),
-                                          )
-                                        ],
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Image.asset(
+                                              e['image'] as String,
+                                              height: 26,
+                                              width: 26,
+                                              color: getIt<AppColors>()
+                                                  .kPrimaryColor,
+                                            ),
+                                            Spacer(),
+                                            Text(
+                                              e['title'] as String,
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: context
+                                                      .colorScheme.onPrimary,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            Text(
+                                              e['value'] as String,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ],
+                                  )
+                                  .toList(),
                             ),
                             20.height,
                             Text(
