@@ -23,6 +23,7 @@ import 'configurations/error_messages.dart';
 import 'constants/app_colors.dart';
 import 'constants/extensions.dart';
 import 'constants/theme.dart';
+import 'domain/implementations/auth/auth_repository.dart';
 import 'domain/implementations/booking/booking_repository.dart';
 import 'domain/implementations/customer/customer_repository.dart';
 import 'domain/implementations/expense/expense_repository.dart';
@@ -34,7 +35,7 @@ import 'domain/implementations/vehicle/vehicle_repository.dart';
 import 'domain/services/image_services.dart';
 import 'navigation/navigation_helper.dart';
 import 'network/network_repository.dart';
-import 'presentation/views/onboarding/splash_view/splash_view.dart';
+import 'presentation/views/splash_view/splash_view.dart';
 import 'utils/utils.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
@@ -80,6 +81,10 @@ void main() {
     networkRepository: getIt<NetworkRepository>(),
   ));
   getIt.registerSingleton(ExpenseRepository(
+    backendConfigs: getIt<BackendConfigs>(),
+    networkRepository: getIt<NetworkRepository>(),
+  ));
+  getIt.registerSingleton(AuthRepository(
     backendConfigs: getIt<BackendConfigs>(),
     networkRepository: getIt<NetworkRepository>(),
   ));
@@ -177,7 +182,7 @@ class RentACar extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Rent A Car',
+        title: 'Rent A Car Admin',
         navigatorObservers: [routeObserver],
         debugShowCheckedModeBanner: false,
         darkTheme: getIt<AppThemes>().darkTheme,

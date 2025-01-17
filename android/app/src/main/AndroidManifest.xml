@@ -22,7 +22,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="rent_a_car">
+        android:label="Rent A Car Admin">
 
         <activity
             android:name=".MainActivity"

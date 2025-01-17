@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/extensions.dart';
+import '../../../../domain/services/session_manager.dart';
 import '../../../../generated/assets.dart';
 import '../../../../navigation/navigation_helper.dart';
 import '../../add_fuel_rates/add_fuel_rates.dart';
@@ -10,6 +11,7 @@ import '../../add_new_vehicle_view/add_new_vehicle_view.dart';
 import '../../all_expenses_view/all_expenses_view.dart';
 import '../../all_payment_vouchers_view/all_payment_vouchers_view.dart';
 import '../../all_promotions_view/all_promotions_view.dart';
+import '../../auth/login_view/login_view.dart';
 import '../../day_book_view/day_book_view.dart';
 import '../../rental_requests_view/rental_requests_view.dart';
 
@@ -104,7 +106,20 @@ class AppDrawer extends StatelessWidget {
               context: context,
               title: 'Logout',
               icon: Assets.iconsLogout,
-              onTap: () {}),
+              onTap: () async {
+                try {
+                  await SessionManager().clearSession();
+                  if (context.mounted) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginView()),
+                      (route) => false,
+                    );
+                  }
+                } catch (e) {
+                  debugPrint(e.toString());
+                }
+              }),
         ],
       ),
     );

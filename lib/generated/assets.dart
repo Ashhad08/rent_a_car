@@ -4,8 +4,7 @@ class Assets {
 
   static const String iconsAfaqTech = 'assets/icons/afaq_tech.png';
   static const String iconsAvailable = 'assets/icons/available.png';
-  static const String iconsBottomBarShadow =
-      'assets/icons/bottom_bar_shadow.png';
+  static const String iconsBottomBarShadow = 'assets/icons/bottom_bar_shadow.png';
   static const String iconsBuilding = 'assets/icons/building.png';
   static const String iconsCalender = 'assets/icons/calender.png';
   static const String iconsCalender2 = 'assets/icons/calender2.png';
@@ -30,8 +29,7 @@ class Assets {
   static const String iconsNotAvailable = 'assets/icons/not_available.png';
   static const String iconsOwners = 'assets/icons/owners.png';
   static const String iconsPromotions = 'assets/icons/promotions.png';
-  static const String iconsReceipetVoucher =
-      'assets/icons/receipet_voucher.png';
+  static const String iconsReceipetVoucher = 'assets/icons/receipet_voucher.png';
   static const String iconsRentCar = 'assets/icons/rent_car.png';
   static const String iconsReturnVehicle = 'assets/icons/return_vehicle.png';
   static const String iconsSettings = 'assets/icons/settings.png';
@@ -41,7 +39,5 @@ class Assets {
   static const String imagesAppLogo = 'assets/images/app_logo.png';
   static const String imagesDummyMap = 'assets/images/dummy_map.png';
   static const String imagesLoginBg = 'assets/images/login_bg.png';
-  static const String imagesOnboarding1 = 'assets/images/onboarding_1.png';
-  static const String imagesOnboarding2 = 'assets/images/onboarding_2.png';
-  static const String imagesOnboarding3 = 'assets/images/onboarding_3.png';
+
 }

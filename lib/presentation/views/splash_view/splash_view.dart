@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../constants/extensions.dart';
+import '../../../../domain/services/session_manager.dart';
 import '../../../../generated/assets.dart';
 import '../../../../navigation/navigation_helper.dart';
-import '../../auth/login_view/login_view.dart';
+import '../auth/login_view/login_view.dart';
+import '../bottom_nav_bar/bottom_nav_bar.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -20,9 +22,14 @@ class _SplashViewState extends State<SplashView> {
   }
 
   void _navigateToNextScreen() async {
+    final isLoggedIn = await SessionManager().isLoggedIn();
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
-    getIt<NavigationHelper>().pushReplacement(context, const LoginView());
+    if (isLoggedIn) {
+      getIt<NavigationHelper>().pushReplacement(context, const BottomNavBar());
+    } else {
+      getIt<NavigationHelper>().pushReplacement(context, const LoginView());
+    }
   }
 
   @override

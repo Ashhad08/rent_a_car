@@ -90,14 +90,6 @@ class VehicleDetailsView extends StatelessWidget {
         'value': 'Rs. ${vehicle.rateWithDriver ?? ""}',
       },
       {
-        'title': 'Rate With Driver',
-        'value': 'Rs. ${vehicle.rateWithDriver ?? ""}',
-      },
-      {
-        'title': 'Rate With Driver',
-        'value': 'Rs. ${vehicle.rateWithDriver ?? ""}',
-      },
-      {
         'title': 'Weekly Discount',
         'value': '${vehicle.discountWeek ?? ""}%',
       },

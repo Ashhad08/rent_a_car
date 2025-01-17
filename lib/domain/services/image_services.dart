@@ -36,10 +36,9 @@ class ImageServices {
         fileFieldName: 'files',
         filePaths: images,
       );
-      return ['https://picsum.photos/seed/picsum/200/300'];
+      return (res['files'] as Iterable).map((e) => e['url'] as String).toList();
     } catch (e) {
-      debugPrint(e.toString());
-      return ['https://picsum.photos/seed/picsum/200/300'];
+      rethrow;
     }
   }
 }
