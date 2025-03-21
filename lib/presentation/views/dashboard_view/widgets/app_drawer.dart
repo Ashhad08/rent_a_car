@@ -62,26 +62,26 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                Assets.iconsAfaqTech,
-                height: 24,
-                width: 24,
-                color: getIt<AppColors>().kPrimaryColor,
-              ),
-              8.width,
-              Text(
-                'Afaq Technologies',
-                style: TextStyle(
-                    color: getIt<AppColors>().kPrimaryColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          40.height,
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Image.asset(
+          //       Assets.iconsAfaqTech,
+          //       height: 24,
+          //       width: 24,
+          //       color: getIt<AppColors>().kPrimaryColor,
+          //     ),
+          //     8.width,
+          //     Text(
+          //       'Afaq Technologies',
+          //       style: TextStyle(
+          //           color: getIt<AppColors>().kPrimaryColor,
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w500),
+          //     ),
+          //   ],
+          // ),
+          // 40.height,
           Text(
             'Rent-A-Car',
             textAlign: TextAlign.center,
